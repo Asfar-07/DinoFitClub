@@ -14,7 +14,7 @@ import Login from "@/pages/Login/Login.tsx";
 import Profile from "../pages/Profile/Profile.tsx";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword.tsx";
 import ResetPassword from "../pages/ForgotPassword/ResetPassword.jsx";
-import CreateCompany from "@/pages/CreateDashboard/CreateCompany.tsx";
+import CreateCommunity from "@/pages/CreateCommunity/CreateCommunity.tsx";
 import MainLocation from "@/components/MapUI/MainLocation";
 import MainLayout from "@/layouts/MainLayout.jsx";
 import HeaderLayout from "@/layouts/HeaderLayout.jsx";
@@ -75,7 +75,7 @@ export default function AppRoutes() {
             <Route path="/login" Component={Login} />
             <Route path="/login/forgot" Component={ForgotPassword} />
             <Route path="/reset-password" Component={ResetPassword} />
-            <Route path="/create/community" Component={CreateCompany} />
+            <Route path="/create/community" Component={CreateCommunity} />
             <Route path="/welcome/home" Component={OnboardingPage} />
           </Route>
           <Route path="*" element={<NotFound />} />

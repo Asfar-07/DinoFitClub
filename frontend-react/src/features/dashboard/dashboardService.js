@@ -5,12 +5,15 @@ import { DashboardDataForm } from "@/utils/databaseForm";
 import { data } from "react-router-dom";
 
 export const handleDashboard = {
-  createDashboard: async (data) => {
-    const serverData=DashboardDataForm(data);
+  createDashboard: async (formData) => {
     try {
       const res = await apiConnection.post(
-        "/dashboard/create/working/dashboard",
-        serverData,
+        "/community/dashboard/create",
+        formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
       );
       return res.data;
     } catch (e) {

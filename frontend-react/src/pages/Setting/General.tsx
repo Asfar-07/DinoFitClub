@@ -43,8 +43,8 @@ export default function General(): ReactElement {
   return (
     <div className="flex flex-1 flex-col gap-6">
       {/* banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#134e4a] via-[#0f766e] to-[#7be6df] p-8">
-        <h2 className="text-2xl font-extrabold text-white">General Settings</h2>
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#134e4a] via-[#0f766e] to-[#7be6df] p-6 sm:p-8">
+        <h2 className="text-xl font-extrabold text-white sm:text-2xl">General Settings</h2>
         <p className="mt-1 text-sm text-white/80">Customize your DinoRyx experience</p>
       </div>
 
@@ -58,7 +58,7 @@ export default function General(): ReactElement {
               <button
                 key={opt.key}
                 onClick={() => setTheme(opt.key)}
-                className={`flex flex-col items-center gap-2 rounded-2xl border py-6 transition ${
+                className={`flex flex-col items-center gap-2 rounded-2xl border py-4 transition sm:py-6 ${
                   active
                     ? "border-[#7be6df] bg-[#7be6df14] text-[#7be6df] shadow-[0_0_0_3px_#7be6df26]"
                     : "border-[#ffffff14] text-[#bac7cc] hover:border-[#7be6df40]"
@@ -145,7 +145,7 @@ export default function General(): ReactElement {
         <div className="flex flex-col gap-5">
           <div>
             <p className="mb-2 text-sm font-semibold text-[#f0f4f8]">Text Size</p>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {textSizeLabels.map((t) => {
                 const active = t.size === textSize;
                 return (
