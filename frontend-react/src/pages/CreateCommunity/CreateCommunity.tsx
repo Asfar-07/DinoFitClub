@@ -86,6 +86,7 @@ export default function CreateCommunity({
 }: CreateCommunityPageProps): ReactElement {
   const [form, setForm] = useState<CommunityFormData>(emptyForm);
   const [logo, setLogo] = useState<File | null>();
+  const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const update = <K extends keyof CommunityFormData>(key: K, value: CommunityFormData[K]): void => {
@@ -96,7 +97,9 @@ export default function CreateCommunity({
 
   const handleLogoChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0] ?? null;
+    if (!file) return;
     setLogo(file)
+    setPreview(URL.createObjectURL(file));
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
@@ -221,14 +224,22 @@ export default function CreateCommunity({
               <div>
                 <FieldLabel icon={<ImagePlus size={15} />}>Logo</FieldLabel>
                 <div className="flex flex-col items-start gap-4 sm:flex-row">
-                  <button
-                    type="button"
-                    onClick={handleLogoClick}
-                    className="flex cursor-pointer h-24 w-24 shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-[#7be6df40] text-[#7be6df] transition hover:border-[#7be6df]"
-                  >
-                    <ImagePlus size={20} />
-                    <span className="text-xs font-semibold">Upload</span>
-                  </button>
+                  {preview ?
+                    <div className="flex cursor-pointer h-24 w-24 shrink-0 flex-col items-center justify-center gap-1 rounded-2xl
+                   border-1 border-[#7be6df] overflow-hidden">
+                      <img src={preview} alt="preview" className="size-full object-cover self-center" />
+                    </div>
+                    :
+                    <button
+                      type="button"
+                      onClick={handleLogoClick}
+                      className="flex cursor-pointer h-24 w-24 shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-[#7be6df40] text-[#7be6df] transition hover:border-[#7be6df]"
+                    >
+                      <ImagePlus size={20} />
+                      <span className="text-xs font-semibold">Upload</span>
+                    </button>
+                  }
+                 
                   <div>
                     <p className="text-sm font-bold text-[#f0f4f8]">Upload Logo</p>
                     <p className="text-xs text-[#bac7cc]">PNG, JPG or SVG. Square works best.</p>
@@ -364,7 +375,7 @@ export default function CreateCommunity({
             <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
               <button
                 type="button"
-                onClick={() => window.navigation.back()}
+                onClick={() => window.history.back()}
                 className="rounded-full cursor-pointer border border-[#ffffff1f] px-6 py-3 text-sm font-bold text-[#f0f4f8] transition hover:border-[#ffffff40]"
               >
                 Cancel
