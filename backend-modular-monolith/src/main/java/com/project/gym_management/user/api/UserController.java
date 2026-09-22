@@ -1,6 +1,8 @@
 package com.project.gym_management.user.api;
 
 
+import com.project.gym_management.dashboard.api.responsive.AccountCommunitiesDTO;
+import com.project.gym_management.dashboard.application.CommunityService;
 import com.project.gym_management.user.api.response.AccountDTO;
 import com.project.gym_management.user.api.response.ProfileDTO;
 import com.project.gym_management.user.application.UserService;
@@ -18,6 +20,9 @@ public class UserController {
     @Autowired
     UserService service;
 
+    @Autowired
+    CommunityService communityService;
+
     @GetMapping(value = "/me")
     public ResponseEntity<?> MeUser(HttpServletRequest request){
         String userId = (String) request.getAttribute("userId");
@@ -29,6 +34,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
     @GetMapping(value = "/account")
     public ResponseEntity<ProfileDTO> CheckUser(HttpServletRequest request){
 
@@ -41,20 +47,34 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "/communities")
+    public ResponseEntity<AccountCommunitiesDTO> Communities(HttpServletRequest request){
+        String userId = (String) request.getAttribute("userId");
+        try{
+            AccountCommunitiesDTO communitiesDTO = communityService.showCommunities(Long.valueOf(userId));
+            return ResponseEntity.ok(communitiesDTO);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+    }
+
     @PutMapping(value="/update")
     public ResponseEntity<String> UserUpdate(HttpServletRequest request, @RequestBody UpdateUserPrint new_userdata){
 
         String userId = (String) request.getAttribute("userId");
-        boolean response=service.UpdateUser(Long.parseLong(userId),new_userdata);
+        boolean response = service.UpdateUser(Long.parseLong(userId),new_userdata);
         if(response) return ResponseEntity.ok("success");
         return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
     @DeleteMapping(value="/delete/account")
     public  ResponseEntity<String> DeleteAccount( HttpServletRequest request){
 
         String userId = (String) request.getAttribute("userId");
-        boolean response=service.DeleteService(Long.parseLong(userId));
+        boolean response = service.DeleteService(Long.parseLong(userId));
         if(response) return ResponseEntity.ok("success");
         return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
 }

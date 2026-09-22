@@ -1,4 +1,4 @@
-package com.project.gym_management.user.api.response;
+package com.project.gym_management.user.api;
 
 import com.project.gym_management.files.controller.ImageController;
 import com.project.gym_management.user.application.AvatarService;
