@@ -60,7 +60,7 @@ export default function Settings(): ReactElement {
   return (
     <div className="min-h-screen w-full bg-(--primary-bg-color) text-(--primary-text-color) pt-16
     ">
-
+      
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8 md:px-10">
         {/* page title */}
         <div className="mb-6 flex items-center gap-3">

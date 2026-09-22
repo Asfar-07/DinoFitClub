@@ -1,11 +1,14 @@
 import { Trash } from "lucide-react";
-import type { ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import { CiWarning } from "react-icons/ci";
 import { SectionCard } from "./SettingsShared";
+import DeleteAccountDialog from "./DeleteAccountDialog";
 
 export default function Account(): ReactElement {
+  const [isDelete, setIsDelete] = useState<boolean>(false);
   return (
     <div className="flex flex-1 flex-col gap-6">
+      <DeleteAccountDialog open={isDelete} onOpenChange={() => setIsDelete(false)}/>
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#134e4a] via-[#0f766e] to-[#7be6df] p-6 sm:p-8">
         <h2 className="text-xl font-extrabold text-white sm:text-2xl">Account Settings</h2>
         <p className="mt-1 text-sm text-white/80">Account & data settings go here.</p>
@@ -19,7 +22,8 @@ export default function Account(): ReactElement {
         <div className="flex flex-col gap-3">
           <div className="flex w-full md:justify-end">
             <button
-              className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-600 bg-red-600/20 px-7 py-2 text-sm text-red-400 transition hover:scale-[1.03] md:w-auto"
+              className="flex w-full items-center cursor-pointer justify-center gap-2 rounded-2xl border border-red-600 bg-red-600/20 px-7 py-2 text-sm text-red-400 transition hover:scale-[1.03] md:w-auto"
+              onClick={() => setIsDelete(true)}
             >
               <Trash size={16} />
               Delete

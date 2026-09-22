@@ -74,7 +74,7 @@ export default function General(): ReactElement {
               <button
                 key={opt.key}
                 onClick={() => { ChangeThemeMode(opt.key) }}
-                className={`flex flex-col items-center gap-2 rounded-2xl border py-4 transition sm:py-6 ${active
+                className={`flex flex-col items-center gap-2 cursor-pointer rounded-2xl border py-4 transition sm:py-6 ${active
                     ? "border-[#7be6df] bg-[#7be6df14] text-[#7be6df] shadow-[0_0_0_3px_#7be6df26]"
                     : "border-[#ffffff14] text-(--secondary-text-color) hover:border-[#7be6df40]"
                   }`}
