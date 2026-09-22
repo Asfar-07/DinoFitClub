@@ -10,14 +10,13 @@ import { setAuth, removeAuth } from "../../features/auth/authSlice.ts";
 import { removeUser } from "../../features/user/userSlice.js";
 import type { RootState } from "../../app/store.ts"
 import { Skeleton } from "../ui/skeleton.tsx";
+import { pickAvatar } from "@/utils/avatarHandle.ts";
 
 export default function NavProfile() {
   const [accountDiv, setAccountDiv] = useState(false);
   const isAuth = useSelector((state: RootState) => state.userAuth.status);
   const authInfo = useSelector((state: RootState) => state.userAuth.authInfo);
   const loading = useSelector((state: RootState) => state.userAuth.loading);
-
-  const backendUrl = "https://res.cloudinary.com/is9tsczx/image/upload/v1789498226";
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -44,7 +43,7 @@ export default function NavProfile() {
       <div className="header-user-profile">
         {isAuth === "authenticated" && authInfo ? (
           <>
-            <img src={backendUrl + authInfo?.picture} alt="user profile" />
+            <img src={pickAvatar(authInfo.picture)} alt="user profile" />
             <div className="header-username">
               <strong>{authInfo?.name}</strong>
               {authInfo?.trainer ? <small>Certified Trainer</small> : <small>Normal User</small>}

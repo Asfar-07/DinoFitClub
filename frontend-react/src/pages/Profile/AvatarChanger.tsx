@@ -3,12 +3,12 @@ import { X, ImagePlus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "react-toastify";
 import { handleUser } from "@/features/user/userService";
+import { pickAvatar } from "@/utils/avatarHandle";
 
 
 export interface ChangeAvatarModalProps {
   open?: boolean;
   currentAvatar?: string;
-  backend?: string;
   avatars?: string[];
   onClose?: () => void;
   onSelectDefault?: (id: string) => void;
@@ -28,7 +28,6 @@ const MIN_HEIGHT = 100;
 export default function AvatarChanger({
   open = true,
   currentAvatar,
-  backend,
   avatars = [],
   onClose = () => { },
   onSelectDefault = () => { }
@@ -202,7 +201,7 @@ export default function AvatarChanger({
           {/* current avatar */}
           <div className="flex items-center gap-4 rounded-2xl border border-[#ffffff10] bg-[#ffffff05] p-4">
             <Avatar className="size-14.5 text-2xl border border-[#7be6df40] shadow-[0_0_0_3px_#7be6df1a]">
-              <AvatarImage src={ backend ? backend + currentAvatar : undefined } alt="avatar" />
+              <AvatarImage src={ pickAvatar(currentAvatar)} alt="avatar" />
               <AvatarFallback>CR</AvatarFallback>
             </Avatar>
             <div>
@@ -226,7 +225,7 @@ export default function AvatarChanger({
                       ${selectedId === a
                         ? "border-[#4dfff3] shadow-[0_0_0_3px_#7be6df33]"
                         : "border-[#ffffff14] hover:border-[#7be6df66]"}`}>
-                    <AvatarImage src={backend ? backend + a : undefined} alt="avatar" />
+                    <AvatarImage src={"https://res.cloudinary.com/is9tsczx/image/upload/v1789498226" + a} alt="avatar" />
                     <AvatarFallback>LD</AvatarFallback>
                   </Avatar>
                   {/* <AvatarBubble

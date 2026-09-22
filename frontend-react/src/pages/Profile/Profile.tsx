@@ -21,15 +21,17 @@ import {
 } from "@/components/ui/select";
 import {
   Pencil, Check, X, MapPin, Calendar, Phone, Mail,
-  User, ShieldCheck, LogIn, UserMinus, Trash2,
-  LayoutDashboard, Users, Plus, SettingsIcon,
-  Sparkles, Compass,
+  User, ShieldCheck, LayoutDashboard, Plus, SettingsIcon,
   Camera
 } from "lucide-react";
 import ShortcutsCommand from '@/components/SmallUI/ShortcutsCommand';
 import AvatarChanger from './AvatarChanger';
 import CommandController from './CommandController';
 import { formatDate, getDaysSinceCreated } from '@/utils/TimeHandle';
+import { pickAvatar } from '@/utils/avatarHandle';
+
+import type { AccountCommunitiesResponse, CommunitySummary } from './Profile.type';
+import CommunityCard from './CommunityCards';
 
 interface UserData {
   id: string;
@@ -52,87 +54,6 @@ interface EditableFields {
   address: string;
   phone_no: string;
   gender: string;
-}
-
-interface DashboardCard {
-  id: string;
-  name: string;
-  about: string;
-  logo: string;
-  isOwner: boolean;
-  memberCount: number;
-  color: string;
-}
-
-const trainerCards: DashboardCard[] = [
-  { id: "d1", name: "UX Mastery Hub", about: "Deep-dive sessions on user research, wireframing & usability testing.", logo: "🎨", isOwner: true, memberCount: 342, color: "#56b2bb" },
-  { id: "d2", name: "Design Systems Lab", about: "Building scalable component libraries with Figma and tokens.", logo: "⚙️", isOwner: true, memberCount: 189, color: "#a78bfa" },
-  { id: "d3", name: "Frontend Finesse", about: "CSS tricks, responsive layouts, and animation masterclasses.", logo: "💻", isOwner: false, memberCount: 512, color: "#34d399" },
-];
-
-const followedCards: DashboardCard[] = [
-  { id: "f1", name: "React Wizards", about: "Advanced React patterns, hooks, and performance optimization.", logo: "⚛️", isOwner: false, memberCount: 1204, color: "#56b2bb" },
-  { id: "f2", name: "Motion Design", about: "After Effects, Lottie, and CSS animation tutorials for everyone.", logo: "🎬", isOwner: false, memberCount: 876, color: "#fbbf24" },
-  { id: "f3", name: "Typography Club", about: "Font pairing, type scales, and the art of readable text.", logo: "🔤", isOwner: false, memberCount: 430, color: "#f472b6" },
-];
-
-function ChannelCard({ card, isTrainer, onUnfollow, onDelete }: {
-  card: DashboardCard;
-  isTrainer: boolean;
-  onUnfollow: (id: string) => void;
-  onDelete: (id: string) => void;
-}) {
-  return (
-    <div className="ch-card group relative flex flex-col gap-3 p-4 rounded-2xl overflow-hidden">
-      {/* top accent line */}
-      <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl"
-        style={{ background: `linear-gradient(90deg,${card.color}99,transparent)` }} />
-
-      {/* header */}
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex items-center gap-3">
-          <div className="ch-logo text-xl shrink-0"
-            style={{ background: `${card.color}18`, border: `1px solid ${card.color}2e` }}>
-            {card.logo}
-          </div>
-          <div>
-            <p className="primary-text font-semibold text-sm leading-snug">{card.name}</p>
-            <p className="secondary-text text-xs mt-0.5 flex items-center gap-1">
-              <Users size={10} />{card.memberCount.toLocaleString()} members
-            </p>
-          </div>
-        </div>
-
-        {/* action icons — visible on hover */}
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-          {isTrainer && card.isOwner && (
-            <button onClick={() => onDelete(card.id)} className="icon-act text-red-400 hover:bg-red-400/10" title="Delete">
-              <Trash2 size={13} />
-            </button>
-          )}
-          {!(isTrainer && card.isOwner) && (
-            <button onClick={() => onUnfollow(card.id)} className="icon-act" style={{ color: "#fbbf24" }} title="Unfollow">
-              <UserMinus size={13} />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* about */}
-      <p className="secondary-text text-xs leading-relaxed line-clamp-2">{card.about}</p>
-
-      {/* footer */}
-      <div className="flex items-center justify-between pt-1">
-        {isTrainer && card.isOwner
-          ? <span className="owner-badge" style={{ background: `${card.color}18`, color: card.color, border: `1px solid ${card.color}2e` }}>Owner</span>
-          : <span className="following-tag"><Sparkles size={11} />Following</span>
-        }
-        <button className="enter-btn flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg">
-          <LogIn size={12} /> Enter
-        </button>
-      </div>
-    </div>
-  );
 }
 
 function DiscoverTile({ icon, title, description, onClick }: {
@@ -169,13 +90,13 @@ export default function ProfileDashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isChangeAvatarOpen, setIsChangeAvatarOpen] = useState(false);
+  const [ownCommunity, setOwnCommunity] = useState<CommunitySummary[]>([]);
+  const [followedCommunity, setFollowedCommunity] = useState<CommunitySummary[]>([]);
   const hasFetched = useRef(false);
   const [avatars, setAvatars] = useState<string[]>([]);
-  const [cards, setCards] = useState<DashboardCard[]>(userData?.trainer ? trainerCards : followedCards);
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const backendUrl = "https://res.cloudinary.com/is9tsczx/image/upload/v1789498226";
 
   const { register, handleSubmit, reset, setValue, watch } = useForm<EditableFields>({
     defaultValues: {
@@ -192,28 +113,34 @@ export default function ProfileDashboard() {
 
   useEffect(() => {
     if (hasFetched.current) return;
-
     hasFetched.current = true;
     setIsLoading(true)
+
     handleUser.fetchUser().then((data) => {
-
-
       setIsLoading(false)
       dispatch(addUser(data));
       setUserData(data);
-
+      callDefaultAvatars();
+      callCommunities();
     }).catch(() => {
-      setIsLoading(false);
-      // e.response?.status === 401 && navigate("/login");
-    });
-
-    handleUser.getDefaultAvatars().then((avatars) => {
-      setAvatars(avatars);
-    }).catch(() => {
-      setIsLoading(false);
     });
 
   }, [navigate, dispatch]);
+
+  function callCommunities(){
+    handleUser.getCommunities().then((communities: AccountCommunitiesResponse) => {
+      setOwnCommunity(communities.owned);
+      setFollowedCommunity(communities.followed);
+    }).catch(() => {
+    });
+  }
+  
+  function callDefaultAvatars(){
+    handleUser.getDefaultAvatars().then((avatars: string[]) => {
+      setAvatars(avatars);
+    }).catch(() => {
+    });
+  }
 
   const watchedGender = watch("gender");
 
@@ -239,9 +166,9 @@ export default function ProfileDashboard() {
       dispatch(addUser(userData));
       setIsLoading(false);
     })
-      .catch(() => {
-        setIsLoading(false);
-      });
+    .catch(() => {
+      setIsLoading(false);
+    });
   };
 
   const handleCancel = () => {
@@ -249,18 +176,15 @@ export default function ProfileDashboard() {
     setIsEditing(false);
   };
 
-  const handleUnfollow = (id: string) => setCards((p) => p.filter((c) => c.id !== id));
-  const handleDelete = (id: string) => setCards((p) => p.filter((c) => c.id !== id));
 
   const initials = userData?.username.split(" ").map((n) => n[0]).join("").toUpperCase();
-  const ownedCards = cards.filter((c) => c.isOwner);
   // const followingCards = cards.filter((c) => !c.isOwner);
 
   const heroStats = [
     { label: "G Coins", value: "128" },
     { label: "Streak", value: getDaysSinceCreated(userData.createdAt) + " days" },
-    { label: "Own Community", value: String(cards.length) },
-    { label: "Partners", value: "2" },
+    { label: "Own Community", value: String(ownCommunity.length) },
+    { label: "Partners", value: "finding" },
   ];
 
   function SelectDefaultAvatar(src: string){
@@ -283,7 +207,7 @@ export default function ProfileDashboard() {
       {isLoading && <GeneralLoader />}
       <Navbar />
       <AvatarChanger open={isChangeAvatarOpen} onClose={() => setIsChangeAvatarOpen(false)}
-       backend={backendUrl}  onSelectDefault={(src) => {SelectDefaultAvatar(src)}}
+       onSelectDefault={(src) => {SelectDefaultAvatar(src)}}
        avatars={avatars} currentAvatar={userData.avatar}/>
 
       <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-[#5dbcc1]/30 blur-[140px]"></div>
@@ -331,7 +255,7 @@ export default function ProfileDashboard() {
                         <Camera className='text-black'/>
                       </div>
                     </div>
-                    <AvatarImage src={backendUrl + userData.avatar} alt="avatar" />
+                    <AvatarImage src={pickAvatar(userData.avatar)} alt="avatar" />
                     <AvatarFallback>{initials}</AvatarFallback>
                     <AvatarBadge className="bg-green-600 dark:bg-green-800" />
                   </Avatar>
@@ -453,14 +377,14 @@ export default function ProfileDashboard() {
           {/* ══ RIGHT — Channels / Dashboards ══ */}
           <div className="lg:col-span-3 flex flex-col gap-5">
 
-            {/* Header */}
+            {/* own Header */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <LayoutDashboard size={14} className="symbol" />
-                <span className="sec-label">{true ? "Owned Community" : "Followed Channels"}</span>
+                <span className="sec-label">Owned Community</span>
               </div>
               <div className='flex justify-center items-center gap-3'>
-                <span className="count-pill">{cards.length}</span>
+                <span className="count-pill">{ownCommunity.length}</span>
                 <ShortcutsCommand CommandItems={CommandController(setIsEditing)} CustomButton={
                   <Button className="setting-btn text-white flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg cursor-pointer">
                     <SettingsIcon size={13} /> Setting
@@ -468,60 +392,52 @@ export default function ProfileDashboard() {
               </div>
             </div>
 
-            {true ? (
-              /* ── Trainer View ── */
-              <>
-                {/* Owned */}
-                {true && (
-                  <div className="flex flex-col gap-3">
-                    <p className="sub-label">Created by you</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {ownedCards.map((c) => (
-                        <ChannelCard key={c.id} card={c} isTrainer onUnfollow={handleUnfollow} onDelete={handleDelete} />
-                      ))}
-                      <DiscoverTile
-                        icon={<Plus size={16} />}
-                        title="Create new own community"
-                        description="Start a new community for your athletes."
-                        onClick={() => navigate("/create/community")}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {/* Following */}
-                {/* {followingCards.length > 0 && (
-                  <div className="flex flex-col gap-3">
-                    <p className="sub-label">Also following</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {followingCards.map((c) => (
-                        <ChannelCard key={c.id} card={c} isTrainer onUnfollow={handleUnfollow} onDelete={handleDelete} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {ownedCards.length === 0 && followingCards.length === 0 && (
-                  <DiscoverTile
-                    icon={<LayoutDashboard size={20} />}
-                    title="No channels yet"
-                    description="Create your first channel to get started."
-                  />
-                )} */}
-              </>
-            ) : (
-              /* ── Normal User View ── */
+            <div className="flex flex-col gap-3">
+              <p className="sub-label">Created by you</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {cards.map((c) => (
-                  <ChannelCard key={c.id} card={c} isTrainer={false} onUnfollow={handleUnfollow} onDelete={handleDelete} />
+                {ownCommunity.map((community) => (
+                  <CommunityCard key={community.publicId} data={community} />
                 ))}
                 <DiscoverTile
-                  icon={<Compass size={18} />}
-                  title="Discover more channels"
-                  description="Join communities matched to your goals."
+                  icon={<Plus size={16} />}
+                  title="Create new own community"
+                  description="Start a new community for your athletes."
+                  onClick={() => navigate("/create/community")}
                 />
               </div>
+            </div>
+
+            {/* Following Header */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <LayoutDashboard size={14} className="symbol" />
+                <span className="sec-label">Followed Community</span>
+              </div>
+              <div className='flex justify-center items-center gap-3'>
+                <span className="count-pill">{followedCommunity.length}</span>
+              </div>
+            </div>
+
+            {/* Following */}
+            {followedCommunity.length > 0 && (
+              <div className="flex flex-col gap-3">
+                <p className="sub-label">Also following</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {followedCommunity.map((community) => (
+                    <CommunityCard key={community.publicId} data={community} />
+                  ))}
+                </div>
+              </div>
             )}
+
+            {followedCommunity.length === 0 && (
+              <DiscoverTile
+                icon={<LayoutDashboard size={20} />}
+                title="No channels yet"
+                description="Explore our fitness universe."
+              />
+            )}
+
 
             {/* Meta strip */}
             <div className="meta-strip glass-strong-nav">

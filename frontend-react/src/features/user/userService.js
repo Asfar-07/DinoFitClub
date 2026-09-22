@@ -92,5 +92,17 @@ export const handleUser = {
     } catch (e) {
       throw e;
     }
+  },
+  getCommunities: async () => {
+    try {
+      const res = await apiConnection.get(
+        "/user/data/communities",
+      );
+      return res.data;
+    } catch (e) {
+      console.error(e);
+      statusHandle.statusInfo(e.response.status);
+      throw e;
+    }
   }
 };

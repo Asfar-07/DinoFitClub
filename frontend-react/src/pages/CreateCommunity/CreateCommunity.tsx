@@ -15,36 +15,20 @@ import {
   Lock,
   Check,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavProfile from "@/components/Navbar/NavProfile";
 import NotifyIcon from "@/components/SmallUI/NotifyIcon";
 import { handleDashboard } from "@/features/dashboard/dashboardService";
+import { toast } from "react-toastify";
+import GeneralLoader from "@/components/Loader/GeneralLoader";
+import type { CommunityCategory, CommunityPrivacy, CommunityFormData } from "./Community.type";
 
-
-type Privacy = "PUBLIC" | "PRIVATE";
-
-type Category = "Yoga" | "FITNESS" | "CROSSFIT" | "SPORTS" | "SWIMMING" |
-  "WELLNESS" | "BOXING"
-
-/** Form state collected from the inputs on screen. */
-export interface CommunityFormData {
-  name: string;
-  category: string;
-  description: string;
-  whenStarted: string;
-  phone: string;
-  website: string;
-  address: string;
-  privacy: Privacy;
-}
 
 export interface CreateCommunityPageProps {
   onBack?: () => void;
 }
 
-
-
-const CATEGORY_OPTIONS: Category[] = ["FITNESS", "Yoga", "CROSSFIT", "SPORTS", "SWIMMING",
+const CATEGORY_OPTIONS: CommunityCategory[] = ["FITNESS", "Yoga", "CROSSFIT", "SPORTS", "SWIMMING",
   "WELLNESS", "BOXING"];
 
 const emptyForm: CommunityFormData = {
@@ -52,7 +36,7 @@ const emptyForm: CommunityFormData = {
   category: CATEGORY_OPTIONS[0],
   description: "",
   whenStarted: "",
-  phone: "",
+  phoneNumber: "",
   website: "",
   address: "",
   privacy: "PUBLIC",
@@ -87,7 +71,11 @@ export default function CreateCommunity({
   const [form, setForm] = useState<CommunityFormData>(emptyForm);
   const [logo, setLogo] = useState<File | null>();
   const [preview, setPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const navigation = useNavigate();
 
   const update = <K extends keyof CommunityFormData>(key: K, value: CommunityFormData[K]): void => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -110,18 +98,20 @@ export default function CreateCommunity({
       formData.append("logoFile", logo);
     }
 
-
-
     formData.append(
       "data",
       new Blob([JSON.stringify(form)], {
         type: "application/json",
       })
     );
-    handleDashboard.createDashboard(formData).then((res) => {
-      console.log(res)
-    }).catch((e) => {
-      console.log(e);
+
+    handleDashboard.createDashboard(formData).then(() => {
+      setLoading(true);
+      navigation("/account");
+    }).catch(() => {
+      toast.error("Something wrong");
+    }).finally(() => {
+      setLoading(false);
     })
 
   };
@@ -130,6 +120,7 @@ export default function CreateCommunity({
 
   return (
     <div className="min-h-screen w-full bg-[#0a0f22] text-[#f0f4f8]">
+      {loading && <GeneralLoader />} 
       {/*  Top navbar */}
       <header className="flex items-center gap-3 border-b border-[#ffffff0d] px-4 py-4 sm:gap-4 sm:px-6 md:px-10">
         <Link to="/" className="flex items-center gap-2.5">
@@ -319,8 +310,8 @@ export default function CreateCommunity({
                 <div>
                   <FieldLabel icon={<Phone size={15} />}>Phone Number</FieldLabel>
                   <input
-                    value={form.phone}
-                    onChange={(e) => update("phone", e.target.value)}
+                    value={form.phoneNumber}
+                    onChange={(e) => update("phoneNumber", e.target.value)}
                     placeholder="+1 555 000 1234"
                     className={inputClass}
                   />
@@ -358,7 +349,7 @@ export default function CreateCommunity({
                   <Lock size={15} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#7be6df]" />
                   <select
                     value={form.privacy}
-                    onChange={(e) => update("privacy", e.target.value as Privacy)}
+                    onChange={(e) => update("privacy", e.target.value as CommunityPrivacy)}
                     className={`${inputClass} appearance-none pl-11 pr-10`}
                   >
                     <option value="PUBLIC" className="bg-[#0a0f22]">Public</option>

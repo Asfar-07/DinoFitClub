@@ -14,9 +14,7 @@
 
 
 .root-wrap {
-  background:
-    radial-gradient(circle at 1px 1px, rgba(123, 230, 223, 0.07) 1px, transparent 0) 0 0 / 28px 28px,
-    var(--primary-bg-color);
+  background:#081425;
   color: var(--primary-text-color);
   font-family: "Inter", "Manrope", system-ui, -apple-system, sans-serif;
 }
