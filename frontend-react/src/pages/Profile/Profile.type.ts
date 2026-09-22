@@ -18,9 +18,10 @@ export interface CommunitySummary {
 
 export interface CommunityLevel {
   id: number;
-  name: string;
+  name: CommunityLevels;
   requiredPoints: number;
 }
+export type CommunityLevels = "Dino Brown" | "Dino Silver" | "Dino Gold" | "Dino Elite";
 
 export interface AccountCommunitiesResponse {
   owned: CommunitySummary[];

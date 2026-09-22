@@ -22,7 +22,8 @@ import {
 import {
   Pencil, Check, X, MapPin, Calendar, Phone, Mail,
   User, ShieldCheck, LayoutDashboard, Plus, SettingsIcon,
-  Camera
+  Camera,
+  Search
 } from "lucide-react";
 import ShortcutsCommand from '@/components/SmallUI/ShortcutsCommand';
 import AvatarChanger from './AvatarChanger';
@@ -32,6 +33,7 @@ import { pickAvatar } from '@/utils/avatarHandle';
 
 import type { AccountCommunitiesResponse, CommunitySummary } from './Profile.type';
 import CommunityCard from './CommunityCards';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface UserData {
   id: string;
@@ -90,6 +92,7 @@ export default function ProfileDashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isChangeAvatarOpen, setIsChangeAvatarOpen] = useState(false);
+  const [isLoadingCommunity, setIsLoadingCommunity] = useState(false);
   const [ownCommunity, setOwnCommunity] = useState<CommunitySummary[]>([]);
   const [followedCommunity, setFollowedCommunity] = useState<CommunitySummary[]>([]);
   const hasFetched = useRef(false);
@@ -114,32 +117,31 @@ export default function ProfileDashboard() {
   useEffect(() => {
     if (hasFetched.current) return;
     hasFetched.current = true;
-    setIsLoading(true)
+    setIsLoading(true);
+    setIsLoadingCommunity(true);
 
     handleUser.fetchUser().then((data) => {
-      setIsLoading(false)
+      setIsLoading(false);
       dispatch(addUser(data));
       setUserData(data);
       callDefaultAvatars();
       callCommunities();
-    }).catch(() => {
-    });
-
+    })
   }, [navigate, dispatch]);
 
   function callCommunities(){
     handleUser.getCommunities().then((communities: AccountCommunitiesResponse) => {
       setOwnCommunity(communities.owned);
       setFollowedCommunity(communities.followed);
-    }).catch(() => {
+    }).finally(() => {
+      setIsLoadingCommunity(false);
     });
   }
   
   function callDefaultAvatars(){
     handleUser.getDefaultAvatars().then((avatars: string[]) => {
       setAvatars(avatars);
-    }).catch(() => {
-    });
+    })
   }
 
   const watchedGender = watch("gender");
@@ -395,15 +397,24 @@ export default function ProfileDashboard() {
             <div className="flex flex-col gap-3">
               <p className="sub-label">Created by you</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {ownCommunity.map((community) => (
-                  <CommunityCard key={community.publicId} data={community} />
-                ))}
-                <DiscoverTile
-                  icon={<Plus size={16} />}
-                  title="Create new own community"
-                  description="Start a new community for your athletes."
-                  onClick={() => navigate("/create/community")}
-                />
+                {isLoadingCommunity ?
+                  <>
+                    <Skeleton className='w-full h-50 bg-gray-500 dark:bg-gray-700 m-1' />
+                    <Skeleton className='w-full h-50 bg-gray-500 dark:bg-gray-700 m-1' />
+                  </>
+                  :
+                  <>
+                    {ownCommunity.map((community) => (
+                      <CommunityCard key={community.publicId} data={community} />
+                    ))}
+                    <DiscoverTile
+                      icon={<Plus size={16} />}
+                      title="Create new own community"
+                      description="Start a new community for your athletes."
+                      onClick={() => navigate("/create/community")}
+                    />
+                  </>
+                }
               </div>
             </div>
 
@@ -419,24 +430,28 @@ export default function ProfileDashboard() {
             </div>
 
             {/* Following */}
-            {followedCommunity.length > 0 && (
-              <div className="flex flex-col gap-3">
-                <p className="sub-label">Also following</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {followedCommunity.map((community) => (
-                    <CommunityCard key={community.publicId} data={community} />
-                  ))}
-                </div>
+            <div className="flex flex-col gap-3">
+              <p className="sub-label">Also following</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {isLoadingCommunity ?
+                  <>
+                    <Skeleton className='w-full h-50 bg-gray-500 dark:bg-gray-700 m-1' />
+                    <Skeleton className='w-full h-50 bg-gray-500 dark:bg-gray-700 m-1' />
+                  </>
+                  :
+                  <>
+                    {followedCommunity.map((community) => (
+                      <CommunityCard key={community.publicId} data={community} />
+                    ))}
+                    <DiscoverTile
+                      icon={<Search size={20} />}
+                      title="Exploret"
+                      description="Explore our fitness universe."
+                    />
+                  </>
+                }
               </div>
-            )}
-
-            {followedCommunity.length === 0 && (
-              <DiscoverTile
-                icon={<LayoutDashboard size={20} />}
-                title="No channels yet"
-                description="Explore our fitness universe."
-              />
-            )}
+            </div>
 
 
             {/* Meta strip */}

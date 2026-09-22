@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 import { Users, LogIn, Globe, Lock} from "lucide-react";
-import type { CommunitySummary } from "./Profile.type";
+import type { CommunitySummary, CommunityLevels } from "./Profile.type";
 
-export type CommunityLevel = "Dino Bronze" | "Dino Silver" | "Dino Gold" | "Dino Elite";
+
 export type CommunityPrivacy = "public" | "private";
 
 export interface CommunityCardProps {
@@ -10,8 +10,8 @@ export interface CommunityCardProps {
   onEnter?: (id: string) => void;
 }
 
-const LEVEL_STYLES: Record<CommunityLevel, string> = {
-  "Dino Bronze": "border-[#c9975766] bg-[#c9975714] text-[#e0b27a]",
+const LEVEL_STYLES: Record<CommunityLevels, string> = {
+  "Dino Brown": "border-[#c9975766] bg-[#c9975714] text-[#e0b27a]",
   "Dino Silver": "border-[#9fb0bd66] bg-[#9fb0bd14] text-[#c7d3da]",
   "Dino Gold": "border-[#facc1566] bg-[#facc1514] text-[#f5d76e]",
   "Dino Elite": "border-[#a78bfa66] bg-[#a78bfa14] text-[#c4b5fd]",
@@ -19,6 +19,7 @@ const LEVEL_STYLES: Record<CommunityLevel, string> = {
 
 export default function CommunityCard({ data, onEnter = () => {} }: CommunityCardProps): ReactElement {
   const accent = "#7be6df";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   return (
     <div className="group glass-strong-nav relative flex flex-col gap-4 overflow-hidden rounded-2xl  p-5 transition
@@ -34,7 +35,7 @@ export default function CommunityCard({ data, onEnter = () => {} }: CommunityCar
             style={{ borderColor: `${accent}66` }}
           >
             {data.logoUrl ? (
-              <img src={data.logoUrl} alt={data.name} className="h-full w-full flex justify-center items-center object-cover" />
+              <img src={backendUrl + data.logoUrl} alt={data.name} className="h-full w-full flex justify-center items-center object-cover" />
             ) : (
               <img src="/images/rank/dino_bronze.webp" alt={data.name} className="size-[80%] object-cover" />
             )}
@@ -46,7 +47,7 @@ export default function CommunityCard({ data, onEnter = () => {} }: CommunityCar
         </div>
 
         <span
-          className={`flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-bold ${LEVEL_STYLES["Dino Bronze"]}`}
+          className={`flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-bold ${LEVEL_STYLES[data.level.name]}`}
         >
           <div className="size-4">
             <img src="/images/rank/dino_bronze.webp" alt="community rank" className=" object-cover"/>
@@ -68,7 +69,7 @@ export default function CommunityCard({ data, onEnter = () => {} }: CommunityCar
       </div>
 
       {/* description */}
-      <p className="text-sm leading-relaxed font-medium text-(--secondary-text-color)">{data.description}</p>
+      <p className="text-sm leading-relaxed line-clamp-2 font-medium text-(--secondary-text-color)">{data.description}</p>
       <span className="w-full h-[0.5px] bg-white/20"></span>
 
       {/* footer */}

@@ -21,9 +21,6 @@ public class CommunityDashboard {
 
     ImageController imageController = new ImageController();
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> CreateDashboard(@RequestPart("data") Community data, HttpServletRequest request,
                                              @RequestPart(value = "logoFile", required = false) MultipartFile logoFile){
@@ -32,7 +29,7 @@ public class CommunityDashboard {
         String imgPath = null;
         try {
             if (logoFile != null) {
-                imgPath = imageController.SetAvatarImage(logoFile, uploadPath);
+                imgPath = imageController.SetAvatarImage(logoFile, "uploads/logo/");
             }
             data.setLogoUrl(imgPath);
 

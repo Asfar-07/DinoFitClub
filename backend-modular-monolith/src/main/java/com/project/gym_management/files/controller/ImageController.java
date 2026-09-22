@@ -32,7 +32,7 @@ public class ImageController {
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
         // 3️⃣ image path to store in DB (relative path)
-        String imagePath = "/uploads/avatars/" + fileName;
+        String imagePath = "/" + uploadPath + fileName;
 
         // save `imagePath` in your database using repository (pseudo example)
         // userRepository.saveImagePath(userId, imagePath);
