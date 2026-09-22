@@ -9,7 +9,7 @@ export default function ThemeMode() {
 const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme.mode);
   return (
-    <div className='theme-mode'>
+    <div className='theme-mode max-md:hidden'>
       <button onClick={() => dispatch(toggleTheme())}>
       {theme === "dark" ? <CiLight /> : <MdOutlineDarkMode />}
     </button>

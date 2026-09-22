@@ -13,11 +13,11 @@ import type { RootState } from "@/app/store.ts";
 const navLinks = [
   { text:"Home", link: "/"},
   { text:"Trainers", link: "/"},
-  { text:"Dashboard", link: "/user/manage/dashboard"},
+  { text:"Dashboard", link: "/account"},
   { text:"Help", link: "/settings/general"},
   { text:"Map", link: "/nearby-location"},
   { text:"Event", link: "/"},
-  { text:"Reviews", link: "#review"},
+  { text:"notification", link: "#review"},
 ]
 
 export default function Navbar() {
@@ -100,7 +100,7 @@ export default function Navbar() {
                 to="/account"
                 className="mt-2 block rounded-lg bg-(--symbol-color) px-3 py-2.5 text-center text-sm font-semibold text-[#0a0f22]"
               >
-                Login
+                Account
               </Link>:
               <Link
                 to="/login"

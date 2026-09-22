@@ -203,7 +203,7 @@ export default function ProfileDashboard() {
   }
 
   return (
-    <div className="root-wrap relative min-h-screen w-full overflow-hidden p-4 md:p-8">
+    <div className="root-wrap relative min-h-screen w-full overflow-hidden p-4 md:p-8 max-md:pt-14">
       {isLoading && <GeneralLoader />}
       <Navbar />
       <AvatarChanger open={isChangeAvatarOpen} onClose={() => setIsChangeAvatarOpen(false)}

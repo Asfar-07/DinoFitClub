@@ -45,8 +45,8 @@ export default function NavProfile() {
           <>
             <img src={pickAvatar(authInfo.picture)} alt="user profile" />
             <div className="header-username">
-              <strong>{authInfo?.name}</strong>
-              {authInfo?.trainer ? <small>Certified Trainer</small> : <small>Normal User</small>}
+              <strong className="max-md:hidden">{authInfo?.name}</strong>
+              {authInfo?.trainer ? <small className="max-md:hidden">Certified Trainer</small> : <small className="max-md:hidden">Normal User</small>}
 
             </div>
           </>

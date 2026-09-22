@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Users, LogIn, Globe, Lock, Trophy } from "lucide-react";
+import { Users, LogIn, Globe, Lock} from "lucide-react";
 import type { CommunitySummary } from "./Profile.type";
 
 export type CommunityLevel = "Dino Bronze" | "Dino Silver" | "Dino Gold" | "Dino Elite";
