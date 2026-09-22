@@ -23,7 +23,7 @@ export default function NavProfile() {
   function handleLogout() {
     authHandle
       .logoutService()
-      .then((data) => {
+      .then(() => {
         dispatch(removeAuth());
         dispatch(removeUser());
         navigate("/login");

@@ -6,16 +6,17 @@ export const themeSlice = createSlice({
     mode:'dark'
   },
   reducers: {
-     toggleTheme: (state) => {
-        state.mode = state.mode === "dark" ? "light" : "dark";
-        window.localStorage.setItem("theme",state.mode)
+    toggleTheme: (state) => {
+      state.mode = state.mode === "dark" ? "light" : "dark";
+      window.localStorage.setItem("theme", state.mode);
     },
     setTheme: (state, action) => {
       state.mode = action.payload;
+      window.localStorage.setItem("theme", state.mode);
     },
-    setThemeFromLocal:(state)=>{
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    state.mode=savedTheme
+    setThemeFromLocal: (state) => {
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      state.mode = savedTheme;
     }
   }
   

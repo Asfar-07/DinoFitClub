@@ -1,11 +1,19 @@
 import type { ReactElement, ReactNode } from "react";
 import { useState } from "react";
-import { Search, Bell, ChevronDown, Settings as SettingsIcon, Database, ShieldCheck, Lock } from "lucide-react";
+import { Settings as SettingsIcon, Database, ShieldCheck, Lock } from "lucide-react";
 import General from "./General";
 import Account from "./Account";
 import Security from "./Security";
 import Privacy from "./Privacy";
 import { LogOut } from "lucide-react";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/app/store.ts";
+import { Link } from "react-router-dom";
+import { authHandle } from "../../features/auth/authService.js";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { removeAuth } from "../../features/auth/authSlice.ts";
+import { removeUser } from "../../features/user/userSlice.js";
 
 type NavKey = "general" | "account" | "security" | "privacy";
 
@@ -29,73 +37,29 @@ const PANELS: Record<NavKey, ReactNode> = {
   privacy: <Privacy />,
 };
 
-export interface SettingsPageProps {
-  userName?: string;
-  userRole?: string;
-  userAvatarSrc?: string;
-}
-
-export default function Settings({
-  userName = "Asfar Muhammed",
-  userRole = "Gym Enthusiast",
-  userAvatarSrc,
-}: SettingsPageProps): ReactElement {
+export default function Settings(): ReactElement {
   const [activeNav, setActiveNav] = useState<NavKey>("general");
+  const isAuth = useSelector((state: RootState) => state.userAuth.status);
+
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  function handleLogout() {
+    authHandle
+      .logoutService()
+      .then(() => {
+        dispatch(removeAuth());
+        dispatch(removeUser());
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
-    <div className="min-h-screen w-full bg-[#0a0f22] text-[#f0f4f8]">
-      {/* Top navbar */}
-      <header className="flex items-center gap-3 border-b border-[#ffffff0d] px-4 py-4 sm:gap-4 sm:px-6 md:px-10">
-        <div className="flex shrink-0 items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#7be6df40] bg-[#7be6df14] text-lg">
-            🦖
-          </div>
-          <span className="hidden text-lg font-extrabold sm:inline">
-            Dino<span className="text-[#7be6df]">Ryx</span>
-          </span>
-        </div>
-
-        <div className="mx-auto hidden max-w-md flex-1 items-center gap-2 rounded-full border border-[#ffffff14] bg-[#ffffff05] px-4 py-2.5 md:flex">
-          <Search size={16} className="text-[#bac7cc]" />
-          <input
-            placeholder="Search anything..."
-            className="w-full bg-transparent text-sm text-[#f0f4f8] outline-none placeholder:text-[#bac7cc]"
-          />
-        </div>
-
-        <div className="ml-auto flex items-center gap-2 sm:gap-4">
-          {/* search icon shown only below md, where the full bar is hidden */}
-          <button
-            aria-label="Search"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#ffffff14] text-[#bac7cc] hover:text-[#f0f4f8] md:hidden"
-          >
-            <Search size={16} />
-          </button>
-
-          <button
-            aria-label="Notifications"
-            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-[#ffffff14] text-[#bac7cc] hover:text-[#f0f4f8]"
-          >
-            <Bell size={16} />
-            <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-[#38d9c4]" />
-          </button>
-
-          <div className="flex items-center gap-2">
-            {userAvatarSrc ? (
-              <img src={userAvatarSrc} alt={userName} className="h-9 w-9 rounded-full border border-[#7be6df40] object-cover" />
-            ) : (
-              <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#7be6df40] bg-[#7be6df14] text-sm">
-                🦄
-              </div>
-            )}
-            <div className="hidden text-left sm:block">
-              <p className="text-sm font-semibold leading-tight">{userName}</p>
-              <p className="text-xs leading-tight text-[#bac7cc]">{userRole}</p>
-            </div>
-            <ChevronDown size={14} className="hidden text-[#bac7cc] sm:block" />
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen w-full bg-(--primary-bg-color) text-(--primary-text-color) pt-16
+    ">
 
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8 md:px-10">
         {/* page title */}
@@ -103,7 +67,7 @@ export default function Settings({
           <SettingsIcon size={22} className="shrink-0 text-[#7be6df]" />
           <div>
             <h1 className="text-xl font-extrabold sm:text-2xl">Settings</h1>
-            <p className="text-sm text-[#bac7cc]">Manage your app preferences and account settings</p>
+            <p className="text-sm text-(--secondary-text-color)">Manage your app preferences and account settings</p>
           </div>
         </div>
 
@@ -120,7 +84,7 @@ export default function Settings({
                     className={`flex shrink-0 items-center gap-2.5 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition md:rounded-xl ${
                       active
                         ? "bg-gradient-to-r from-[#7be6df] to-[#38d9c4] text-[#082a28]"
-                        : "text-[#bac7cc] hover:bg-[#ffffff08] hover:text-[#f0f4f8]"
+                        : "text-(--secondary-text-color) hover:bg-[#ffffff08] hover:text-(--primary-text-color)"
                     }`}
                   >
                     {item.icon}
@@ -129,13 +93,21 @@ export default function Settings({
                 );
               })}
             </div>
-
+            {isAuth === "authenticated" ? 
             <button
-              type="button"
-              className="flex items-center justify-center gap-2.5 whitespace-nowrap rounded-full from-[#ff0a0f] to-[#ee0000] px-4 py-2.5 text-sm font-semibold text-[#bac7cc] transition hover:bg-gradient-to-r hover:text-white md:justify-start md:rounded-xl"
+              onClick={handleLogout}
+              className="flex items-center cursor-pointer justify-center gap-2.5 whitespace-nowrap rounded-full from-[#ff0a0f] to-[#ee0000] px-4 py-2.5 text-sm font-semibold text-(--secondary-text-color) transition hover:bg-gradient-to-r hover:text-(--primary-text-color) md:justify-start md:rounded-xl"
             >
               <LogOut size={16} /> Log out
             </button>
+            :
+            <Link
+              to="/login"
+              className="flex items-center justify-center gap-2.5 whitespace-nowrap rounded-full from-[#00b5a5] to-[#00cab9] px-4 py-2.5 text-sm font-semibold text-(--secondary-text-color) transition hover:bg-gradient-to-r hover:text-(--primary-text-color) md:justify-start md:rounded-xl"
+            >
+              <LogOut size={16} /> Log in
+            </Link>
+            }
           </nav>
 
           {/* content */}

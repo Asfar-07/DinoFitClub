@@ -10,14 +10,14 @@ export interface SectionCardProps {
 
 export function SectionCard({ icon, title, description, children }: SectionCardProps): ReactElement {
   return (
-    <div className="flex flex-col gap-5 rounded-2xl border border-[#ffffff10] bg-[#ffffff05] p-6 md:flex-row md:gap-8">
+    <div className="flex flex-col gap-5 rounded-2xl border border-[#ffffff10] bg-(--secondary-bg-color) shadow p-6 md:flex-row md:gap-8">
       <div className="flex items-start gap-3 md:w-64 md:shrink-0">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#7be6df33] bg-[#7be6df14] text-[#7be6df]">
           {icon}
         </div>
         <div>
-          <p className="text-sm font-bold text-[#f0f4f8]">{title}</p>
-          <p className="mt-0.5 text-xs leading-relaxed text-[#bac7cc]">{description}</p>
+          <p className="text-sm font-bold text-(--primary-text-color)">{title}</p>
+          <p className="mt-0.5 text-xs leading-relaxed text-(--secondary-text-color)">{description}</p>
         </div>
       </div>
       <div className="flex-1">{children}</div>
@@ -39,11 +39,11 @@ export function ToggleRow({ icon, title, description, checked, onCheckedChange }
       <div className="flex items-start gap-3">
         <div className="mt-0.5 text-[#7be6df]">{icon}</div>
         <div>
-          <p className="text-sm font-semibold text-[#f0f4f8]">{title}</p>
-          <p className="text-xs text-[#bac7cc]">{description}</p>
+          <p className="text-sm font-semibold text-(--primary-text-color)">{title}</p>
+          <p className="text-xs text-(--secondary-text-color)">{description}</p>
         </div>
       </div>
-      <Switch checked={checked} onCheckedChange={onCheckedChange} />
+      <Switch disabled checked={checked} onCheckedChange={onCheckedChange} />
     </div>
   );
 }

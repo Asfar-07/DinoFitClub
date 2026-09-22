@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from '../../features/theme/themeSlice';
 
 export default function ThemeMode() {
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme.mode);
+  
   return (
     <div className='theme-mode max-md:hidden'>
       <button onClick={() => dispatch(toggleTheme())}>
