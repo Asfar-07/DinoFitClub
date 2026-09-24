@@ -1,12 +1,17 @@
 import { ShieldMinus, Trash } from "lucide-react";
 import { useState, type ReactElement } from "react";
 import { CiWarning } from "react-icons/ci";
-import { SectionCard } from "./SettingsShared";
+import { SectionCard, SuggestLogin } from "./SettingsShared";
 import DeleteAccountDialog from "./DeleteAccountDialog";
 import { CgSleep } from "react-icons/cg";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/app/store";
 
 export default function Account(): ReactElement {
   const [isDelete, setIsDelete] = useState<boolean>(false);
+  const isAuth = useSelector((state: RootState) => state.userAuth.status);
+  const isLogin = isAuth === "authenticated";
+
   return (
     <div className="flex flex-1 flex-col gap-6">
       <DeleteAccountDialog open={isDelete} onOpenChange={() => setIsDelete(false)}/>
@@ -16,6 +21,7 @@ export default function Account(): ReactElement {
       </div>
 
       <SectionCard
+        notView={!isLogin}
         icon={<ShieldMinus size={18}/>}
         title="Account Status"
         description="Deactivate Account Take a break from DinoFitClub. Your data will be kept and you can reactivate your account later."
@@ -39,6 +45,7 @@ export default function Account(): ReactElement {
       </SectionCard>
 
       <SectionCard
+      notView={!isLogin}
         icon={<Trash size={18} className="text-red-600"/>}
         title="Delete Account"
         description="Permanently delete your DinoFitClub account and associated data. This action cannot be undone."
@@ -60,6 +67,7 @@ export default function Account(): ReactElement {
           </div>
         </div>
       </SectionCard>
+      <SuggestLogin view={!isLogin}/>
     </div>
   );
 }

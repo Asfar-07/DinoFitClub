@@ -1,14 +1,17 @@
 import type { ReactElement, ReactNode } from "react";
 import { Switch } from "@/components/ui/switch";
+import { Link } from "react-router-dom";
 
 export interface SectionCardProps {
+  notView?: boolean;
   icon: ReactNode;
   title: string;
   description: string;
   children: ReactNode;
 }
 
-export function SectionCard({ icon, title, description, children }: SectionCardProps): ReactElement {
+export function SectionCard({ notView = false, icon, title, description, children }: SectionCardProps): ReactElement | undefined {
+  if(notView) return;
   return (
     <div className="flex flex-col gap-5 rounded-2xl border border-[#ffffff10] bg-(--secondary-bg-color) shadow p-6 md:flex-row md:gap-8">
       <div className="flex items-start gap-3 md:w-85 md:shrink-0">
@@ -73,4 +76,17 @@ export function SegmentedControl<T extends string>({ options, value, onChange }:
       })}
     </div>
   );
+}
+
+export function SuggestLogin({ view = false } : { view?: boolean }): ReactElement | undefined {
+  if(!view) return;
+  return(
+    <div className="flex flex-col gap-5 rounded-2xl border border-[#ffffff10] bg-(--secondary-bg-color) shadow
+       p-6 md:flex-row md:gap-8 hover:border-[#00cab930]">
+        <div className="py-30 flex justify-center w-full">
+          <Link to={"/login"} className="from-[#00b5a5] to-[#00cab9] cursor-pointer px-15 py-2.5 text-sm
+            transition bg-gradient-to-r text-(--primary-text-color) rounded-[10px] hover:scale-[1.05]">Login</Link>
+        </div>
+    </div>
+  )
 }

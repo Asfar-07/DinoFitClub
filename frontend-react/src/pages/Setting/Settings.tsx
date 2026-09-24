@@ -103,7 +103,9 @@ export default function Settings(): ReactElement {
             :
             <Link
               to="/login"
-              className="flex items-center justify-center gap-2.5 whitespace-nowrap rounded-full from-[#00b5a5] to-[#00cab9] px-4 py-2.5 text-sm font-semibold text-(--secondary-text-color) transition hover:bg-gradient-to-r hover:text-(--primary-text-color) md:justify-start md:rounded-xl"
+              className="flex items-center justify-center gap-2.5 whitespace-nowrap rounded-full from-[#00b5a5] to-[#00cab9]
+               px-4 py-2.5 text-sm font-semibold text-(--secondary-text-color) transition 
+               hover:bg-gradient-to-r hover:text-(--primary-text-color) md:justify-start md:rounded-xl"
             >
               <LogOut size={16} /> Log in
             </Link>

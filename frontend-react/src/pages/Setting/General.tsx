@@ -1,9 +1,10 @@
 import { useState, useEffect, type ReactElement, type ReactNode } from "react";
 import { Bell, ChevronDown, Palette, Sun, Moon, Monitor, Globe, Mail, Dumbbell, Clock, Ruler } from "lucide-react";
 // import { Switch } from "@/components/ui/switch";
-import { SectionCard, ToggleRow, SegmentedControl } from "./SettingsShared";
+import { SectionCard, ToggleRow, SegmentedControl, SuggestLogin } from "./SettingsShared";
 import { useSelector, useDispatch } from "react-redux";
 import { setTheme } from "@/features/theme/themeSlice";
+
 
 import type { RootState } from "@/app/store";
 
@@ -32,7 +33,10 @@ export default function General(): ReactElement {
   // const [reduceMotion, setReduceMotion] = useState<boolean>(false);
 
   const storedTheme = useSelector((state: RootState) => state.theme.mode) as ThemeKey;
+  const isAuth = useSelector((state: RootState) => state.userAuth.status);
   const dispatch = useDispatch();
+
+  const isLogin = isAuth === "authenticated";
 
   useEffect(() => {
     setThemeMode(storedTheme);
@@ -97,7 +101,7 @@ export default function General(): ReactElement {
       </SectionCard>
 
       {/* Notifications */}
-      <SectionCard icon={<Bell size={18} />} title="Notifications" description="Manage your notification preferences">
+      <SectionCard notView={!isLogin}  icon={<Bell size={18} />} title="Notifications" description="Manage your notification preferences">
         <div className="divide-y divide-[#ffffff0d]">
           <ToggleRow
             icon={<Bell size={15} />}
@@ -154,6 +158,7 @@ export default function General(): ReactElement {
           </div>
         </div>
       </SectionCard>
+      <SuggestLogin view={!isLogin}/>
 
       {/* Accessibility */}
       {/*  <SectionCard icon={<AccessibilityIcon size={18} />} title="Accessibility" description="Make the app more comfortable for you">
