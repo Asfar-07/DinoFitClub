@@ -14,7 +14,7 @@
 
 
 .root-wrap {
-  background:#081425;
+  background:var(--primary-bg-color);
   color: var(--primary-text-color);
   font-family: "Inter", "Manrope", system-ui, -apple-system, sans-serif;
 }

@@ -52,7 +52,7 @@ export default function NavProfile() {
           </>
         ) : (
           <img
-            src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"
+            src="/images/defaults/default_picture.webp"
             alt="default profile"
           />
         )}
