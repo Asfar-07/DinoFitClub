@@ -75,7 +75,7 @@ export default function Footer() {
                 <img src="/android-chrome-192x192.png" alt="logo" />
               </span>
               <span className="text-xl font-bold tracking-tight">
-                Dino<span className="text-[#56b2bb]">Ryx</span>
+                Dino<span className="text-[#56b2bb]">FitClub</span>
               </span>
             </div>
 
@@ -148,7 +148,7 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-[#1d2233] text-xs">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6  text-[#bac7cc] sm:flex-row md:px-10">
-          <p>© 2026 DinoRyx. All rights reserved.</p>
+          <p>© 2026 DinoFitClub. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
             Crafted with
             <Gem className="h-3.5 w-3.5 text-[#56b2bb]" fill="#56b2bb" />

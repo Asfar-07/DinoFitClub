@@ -1,6 +1,7 @@
 package com.project.gym_management.user.domain;
 
 import com.project.gym_management.auth.domain.AuthProviderTable;
+import com.project.gym_management.auth.domain.OtpVerificationTable;
 import com.project.gym_management.auth.domain.ResetPasswordTable;
 import com.project.gym_management.dashboard.domain.Community;
 import com.project.gym_management.dashboard.domain.CommunityFollower;
@@ -43,6 +44,14 @@ public class UserTable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ResetPasswordTable> resetPassword;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private List<OtpVerificationTable> otpVerificationTables;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<AuthProviderTable> provider;

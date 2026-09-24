@@ -1,5 +1,6 @@
 import {
   Pencil, Trash, SettingsIcon, UserIcon,
+  ArrowBigRight,
 } from "lucide-react";
 import { CommandShortcut } from "@/components/ui/command";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +15,7 @@ export default function CommandController( setIsEditing : any) {
                 return (<>
                     <UserIcon />
                     <span>Profile</span>
-                    <CommandShortcut>⌘P</CommandShortcut></>)
+                    <CommandShortcut><ArrowBigRight/></CommandShortcut></>)
             },
             function: () => {
                 navigate("/account");
@@ -26,7 +27,7 @@ export default function CommandController( setIsEditing : any) {
                 return (<>
                     <Pencil />
                     <span>Edit</span>
-                    <CommandShortcut>⌘B</CommandShortcut></>)
+                    <CommandShortcut><ArrowBigRight/></CommandShortcut></>)
             },
             function: () => {
                 setIsEditing(true);
@@ -38,7 +39,7 @@ export default function CommandController( setIsEditing : any) {
                 return (<>
                     <SettingsIcon />
                     <span>Settings</span>
-                    <CommandShortcut>⌘S</CommandShortcut></>)
+                    <CommandShortcut><ArrowBigRight/></CommandShortcut></>)
             },
             function: () => {
                 navigate("/settings/general")
@@ -50,9 +51,10 @@ export default function CommandController( setIsEditing : any) {
                 return (<>
                     <Trash />
                     <span className=' text-red-600'>Delete Account</span>
-                    <CommandShortcut>⌘S</CommandShortcut></>)
+                    <CommandShortcut><ArrowBigRight/></CommandShortcut></>)
             },
             function: () => {
+                navigate("/settings/general")
             }
         },
 

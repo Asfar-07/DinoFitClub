@@ -9,6 +9,8 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
+import { handleUser } from "@/features/user/userService";
+import { useNavigate } from "react-router-dom";
 
 const CONFIRM_WORD = "DELETE";
 
@@ -24,6 +26,7 @@ export default function DeleteAccountDialog({
   onConfirm = () => {},
 }: DeleteAccountDialogProps): ReactElement {
   const [value, setValue] = useState<string>("");
+  const navigate = useNavigate();
 
   const isConfirmed = value === CONFIRM_WORD;
 
@@ -37,6 +40,9 @@ export default function DeleteAccountDialog({
       e.preventDefault();
       return;
     }
+    handleUser.removeUser().then(()=>{
+      navigate("/login");
+    })
     onConfirm();
     setValue("");
   };
@@ -46,7 +52,7 @@ export default function DeleteAccountDialog({
       <AlertDialogContent className="max-w-md rounded-2xl border border-[#ff4a53d2] bg-(--secondary-bg-color) p-6 text-(--primary-text-color) shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)]">
         <AlertDialogHeader className="gap-2">
           <AlertDialogTitle className="text-xl font-extrabold text-(--primary-text-color)">
-            Delete your DinoRyx account?
+            Delete your DinoFitClub account?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-sm text-(--secondary-text-color)">
             This action is permanent. Type <span className="font-bold text-red-500">{CONFIRM_WORD}</span> below to confirm.

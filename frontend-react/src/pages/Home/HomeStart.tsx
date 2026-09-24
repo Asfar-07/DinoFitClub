@@ -48,7 +48,7 @@ export default function HomeStart() {
           variants={itemVariants}
           className="mx-auto mt-4 max-w-xl text-(--secondary-text-color)"
         >
-          Join thousands of trainers running their studios on DinoRyx.
+          Join thousands of trainers running their studios on DinoFitClub.
         </motion.p>
 
         <motion.div

@@ -92,7 +92,7 @@ export default function ForgotPassword() {
             <img src="/android-chrome-192x192.png" alt="logo" />
           </span>
           <span className="text-lg font-bold tracking-tight">
-            Dino<span className="text-[#56b2bb]">Ryx</span>
+            Dino<span className="text-[#56b2bb]">FitClub</span>
           </span>
         </Link>
 
@@ -113,7 +113,7 @@ export default function ForgotPassword() {
           <div className="flex items-center gap-4">
             <img
               src="/images/DinoHome.webp"
-              alt="DinoRyx mascot"
+              alt="DinoFitClub mascot"
               className="h-16 w-auto shrink-0 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
             />
             <div>

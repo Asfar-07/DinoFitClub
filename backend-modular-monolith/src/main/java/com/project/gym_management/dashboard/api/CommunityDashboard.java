@@ -5,7 +5,6 @@ import com.project.gym_management.dashboard.domain.Community;
 import com.project.gym_management.files.controller.ImageController;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

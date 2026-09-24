@@ -46,7 +46,7 @@ export default function NotFound(): ReactElement {
             <img src="/android-chrome-192x192.png" alt="logo" />
           </span>
           <span className="text-lg font-bold tracking-tight text-(--primary-text-color)">
-            Dino<span className="text-[#56b2bb]">Ryx</span>
+            Dino<span className="text-[#56b2bb]">FitClub</span>
           </span>
         </Link>
         <Link to="/settings/general" className="rounded-full border border-[#7be6df] bg-[#7be6df0d] px-6 py-3 text-[12.5px] font-bold uppercase tracking-wide text-[#7be6df]">

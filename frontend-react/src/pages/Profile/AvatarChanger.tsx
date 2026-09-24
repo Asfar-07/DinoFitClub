@@ -195,7 +195,7 @@ export default function AvatarChanger({
             <h2 className="text-3xl font-extrabold text-[#f0f4f8]">
               Change <span className="text-[#7be6df]">Avatar</span>
             </h2>
-            <p className="text-[16px] text-[#bac7cc]">Pick a DinoRyx default or upload your own photo.</p>
+            <p className="text-[16px] text-[#bac7cc]">Pick a DinoFitClub default or upload your own photo.</p>
           </div>
 
           {/* current avatar */}
@@ -212,7 +212,7 @@ export default function AvatarChanger({
 
           {/* defaults */}
           <div className="flex flex-col gap-4">
-            <span className="text-[12px] font-extrabold tracking-[0.2em] text-[#7be6df]">DINORYX DEFAULTS</span>
+            <span className="text-[12px] font-extrabold tracking-[0.2em] text-[#7be6df]">DinoFitClub DEFAULTS</span>
             <div className="flex flex-wrap gap-3">
               {avatars.map((a: string, index) => (
                 <button

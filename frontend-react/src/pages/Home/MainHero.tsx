@@ -145,11 +145,11 @@ const badgesContainerVariants: Variants = {
 };
 
 export default function MainHero(): React.JSX.Element {
- const isAuth = useSelector((state: RootState) => state.userAuth.status);
+  const isAuth = useSelector((state: RootState) => state.userAuth.status);
 
   return (
     <section className="w-full bg-(--primary-bg-color) px-6 py-20 text-(--primary-text-color) md:px-10 lg:py-28">
-      <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-7xl items-center gap-5 lg:grid-cols-2">
         {/* Left column */}
         <motion.div
           className="flex flex-col max-md:mt-10"
@@ -163,7 +163,7 @@ export default function MainHero(): React.JSX.Element {
             className="glass-li inline-flex w-fit items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-[#bac7cc] ring-1 ring-white/5"
           >
             <Sparkles className="h-3.5 w-3.5 text-[#56b2bb]" />
-            The new operating system for modern gyms
+            The new operating system for modern fitness
           </motion.span>
 
           <motion.h1
@@ -172,16 +172,16 @@ export default function MainHero(): React.JSX.Element {
           >
             Build Your Ultimate
             <br />
-            <span className="text-[#56b2bb]">Gym Network.</span>
+            <span className="text-[#56b2bb]">fitness Network.</span>
           </motion.h1>
 
           <motion.p
             variants={leftItemVariants}
             className="mt-6 max-w-xl text-lg leading-relaxed  text-(--secondary-text-color)"
           >
-            Manage students, billing, progress, locations and your complete
-            gym ecosystem from one intelligent platform designed around
-            the trainer.
+            Create your fitness community, connect with like-minded people, and grow together.
+            Discover communities, join activities, earn rewards, and build your network.
+
           </motion.p>
 
           <motion.div
@@ -211,15 +211,15 @@ export default function MainHero(): React.JSX.Element {
                 </Link>
               </ShineButton>
             )}
-              <Link
+            <Link
               to="/nearby-location"
               className="glass flex flex-row items-center gap-1.5 rounded-full border-[#f0f4f8]/15  text-sm font-semibold
              text-(--primary-text-color) hover:bg-[#1d2233] cursor-pointer px-7 py-4"
-              >
+            >
               <MapPin className="h-4 w-4 text-[#56b2bb] mr-2" />
               Explore Nearby Gyms
-              </Link>
-              
+            </Link>
+
           </motion.div>
 
           <motion.div

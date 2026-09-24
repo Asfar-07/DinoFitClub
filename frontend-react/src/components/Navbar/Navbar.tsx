@@ -13,11 +13,10 @@ import type { RootState } from "@/app/store.ts";
 const navLinks = [
   { text:"Home", link: "/"},
   { text:"Trainers", link: "/"},
-  { text:"Dashboard", link: "/account"},
   { text:"Help", link: "/settings/general"},
   { text:"Map", link: "/nearby-location"},
+  { text:"About", link: "/about"},
   { text:"Event", link: "/"},
-  { text:"notification", link: "#review"},
 ]
 
 export default function Navbar() {
@@ -37,7 +36,7 @@ export default function Navbar() {
             </div>
             <span className="text-lg font-extrabold tracking-tight text-(--primary-text-color)">
               Dino
-              <span className="text-(--symbol-color)">Ryx</span>
+              <span className="text-(--symbol-color)">FitClub</span>
             </span>
           </Link>
           <ul className="hidden items-center  gap-8 lg:flex">

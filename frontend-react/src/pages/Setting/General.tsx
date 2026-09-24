@@ -61,7 +61,7 @@ export default function General(): ReactElement {
       {/* banner */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#134e4a] via-[#0f766e] to-[#7be6df] p-6 sm:p-8">
         <h2 className="text-xl font-extrabold text-white sm:text-2xl">General Settings</h2>
-        <p className="mt-1 text-sm text-white/80">Customize your DinoRyx experience</p>
+        <p className="mt-1 text-sm text-white/80">Customize your DinoFitClub experience</p>
       </div>
 
       {/* Appearance */}

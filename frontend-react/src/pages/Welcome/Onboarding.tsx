@@ -368,16 +368,17 @@ export default function DinoRyxOnboarding() {
           <a href="/" className="flex items-center gap-2.5">
             <img
               src="/images/DinoHome.webp"
-              alt="DinoRyx"
+              alt="DinoFitClub"
               className="h-8 w-auto object-contain"
             />
             <span className="text-lg font-bold tracking-tight text-(--symbol-color)">
-              DinoRyx
+              DinoFitClub
             </span>
           </a>
 
           <button
             type="button"
+            onClick={() => navigate("/account")}
             className="rounded-full cursor-pointer bg-[#1d2233]/70 px-4 py-2 text-xs font-medium text-[#f0f4f8] ring-1 ring-white/10 transition-colors hover:bg-[#1d2233]"
           >
             Skip for now
@@ -416,7 +417,7 @@ export default function DinoRyxOnboarding() {
               </span>
 
               <h1 className="relative mt-6 text-3xl font-extrabold tracking-tight text-(--symbol-color) sm:text-4xl">
-                Welcome to DinoRyx
+                Welcome to DinoFitClub
               </h1>
               <p className="relative mt-3 max-w-md text-[#bac7cc]">
                 Your workspace is personalized and ready. Jump in and start

@@ -128,7 +128,7 @@ export default function CreateCommunity({
             <img src="/android-chrome-192x192.png" alt="logo" />
           </span>
           <span className="text-lg font-bold tracking-tight text-(--primary-text-color)">
-            Dino<span className="text-[#56b2bb]">Ryx</span>
+            Dino<span className="text-[#56b2bb]">FitClub</span>
           </span>
         </Link>
 

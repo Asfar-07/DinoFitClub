@@ -105,13 +105,13 @@ public class AuthMailVerificationImp implements AuthMailVerification {
         otpVerificationRepository.save(otpTable);
 
         String mailBody = "Verify Your Email" +
-                "<p>Hi there use the one-time code below to finish setting up your DinoRyx trainer account.</p>" +
+                "<p>Hi there use the one-time code below to finish setting up your DinoFitClub trainer account.</p>" +
                 "<div style='width:100%;display:flex;padding:10px 40px;background-color:#ffcc73;font-size:30px'>"+otpString+"</div>"+
                 "<p>This code expires in 3 minutes</p>";
 
         try{
             supportMailService.generalMailSender(user.getEmail(),
-                    "Verify your email to activate your DinoRyx account", mailBody);
+                    "Verify your email to activate your DinoFitClub account", mailBody);
         }catch (MailException e){
             otpVerificationRepository.delete(otpTable);
 

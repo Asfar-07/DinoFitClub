@@ -78,7 +78,7 @@ export default function TrialNotice({
             </span>
             <div>
               <h2 className="text-2xl font-extrabold leading-tight tracking-tight sm:text-3xl">
-                Welcome to the DinoRyx{" "}
+                Welcome to the DinoFitClub{" "}
                 <span className="text-[#56b2bb]">1-Month Trial!</span>
               </h2>
               <p className="mt-1.5 text-xs text-(--secondary-text-color) sm:text-sm">
@@ -131,7 +131,7 @@ export default function TrialNotice({
                   Have a great feature idea?
                 </p>
                 <p className="mt-0.5 max-w-lg text-sm leading-relaxed text-(--secondary-text-color">
-                  If your suggestion becomes part of DinoRyx, we&apos;ll
+                  If your suggestion becomes part of DinoFitClub, we&apos;ll
                   happily recognize your contribution by mentioning your
                   name in the app after our official launch.
                 </p>
@@ -148,7 +148,7 @@ export default function TrialNotice({
           {/* Footer */}
           <div className="mt-8 flex flex-col items-start gap-5 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
             <p className="max-w-md text-sm leading-relaxed text-(--secondary-text-color">
-              Thank you for being part of the DinoRyx journey. Together,
+              Thank you for being part of the DinoFitClub journey. Together,
               let&apos;s build a stronger, healthier, and more connected
               fitness community!
             </p>

@@ -45,7 +45,7 @@ export const handleUser = {
   removeUser: async () => {
     try {
       const res = await apiConnection.delete(
-        "/user/data/delete/account",
+        "/user/data/permanently/delete/account",
       );
       statusHandle.statusInfo(res.status)
       return res.data;

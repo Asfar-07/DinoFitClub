@@ -24,7 +24,7 @@ const testimonials: Testimonial[] = [
     role: "Head Coach · Iron Republic",
     rating: 5,
     quote:
-      "DinoRyx replaced three tools. Billing, attendance and progress live in one place — my students actually see their wins now.",
+      "DinoFitClub replaced three tools. Billing, attendance and progress live in one place — my students actually see their wins now.",
   },
   {
     initials: "MV",

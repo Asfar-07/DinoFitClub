@@ -9,6 +9,7 @@ import com.project.gym_management.user.domain.UserProfileTable;
 import com.project.gym_management.user.domain.UserTable;
 import com.project.gym_management.user.infrastructure.ProfileRepository;
 import com.project.gym_management.user.infrastructure.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -84,8 +85,9 @@ public class UserServiceImp implements UserService {
         return profile;
     }
 
+    @Transactional
     public boolean DeleteService(long id){
-        UserTable userdata_from_db=userRepository.findById(id).orElse(null);
+        UserTable userdata_from_db = userRepository.findById(id).orElse(null);
         if(userdata_from_db != null) {
             userRepository.delete(userdata_from_db);
             return true;

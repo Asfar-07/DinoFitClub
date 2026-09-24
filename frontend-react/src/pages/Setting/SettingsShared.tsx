@@ -11,7 +11,7 @@ export interface SectionCardProps {
 export function SectionCard({ icon, title, description, children }: SectionCardProps): ReactElement {
   return (
     <div className="flex flex-col gap-5 rounded-2xl border border-[#ffffff10] bg-(--secondary-bg-color) shadow p-6 md:flex-row md:gap-8">
-      <div className="flex items-start gap-3 md:w-64 md:shrink-0">
+      <div className="flex items-start gap-3 md:w-85 md:shrink-0">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#7be6df33] bg-[#7be6df14] text-[#7be6df]">
           {icon}
         </div>

@@ -4,7 +4,7 @@ export const demoQuestions: Questions[] = [
     id: 1,
     order: 1,
     questionKey: "hear_about",
-    questionText: "Where did you hear about DinoRyx?",
+    questionText: "Where did you hear about DinoFitClub?",
     type: "SINGLE",
     required: true,
     active: true,

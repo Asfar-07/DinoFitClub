@@ -11,7 +11,6 @@ import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage, AvatarBadge } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import GeneralLoader from '@/components/Loader/GeneralLoader';
-import Navbar from '@/components/Navbar/Navbar.tsx';
 import {
   Select,
   SelectContent,
@@ -207,7 +206,6 @@ export default function ProfileDashboard() {
   return (
     <div className="root-wrap relative min-h-screen w-full overflow-hidden p-4 md:p-8 max-md:pt-14">
       {isLoading && <GeneralLoader />}
-      <Navbar />
       <AvatarChanger open={isChangeAvatarOpen} onClose={() => setIsChangeAvatarOpen(false)}
        onSelectDefault={(src) => {SelectDefaultAvatar(src)}}
        avatars={avatars} currentAvatar={userData.avatar}/>

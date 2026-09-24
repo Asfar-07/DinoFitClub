@@ -10,6 +10,7 @@ import com.project.gym_management.common.security.JwtTokenManage;
 import com.project.gym_management.user.domain.UserTable;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,7 @@ public class AuthController {
         return "Hello";
     }
     @PostMapping(value = "/login")
-    public ResponseEntity<HashMap<String, Object>> Login(@RequestBody ReqAuth data, HttpServletResponse response) {
+    public ResponseEntity<HashMap<String, Object>> Login(@Valid @RequestBody ReqAuth data, HttpServletResponse response) {
 
         HashMap<String,Object> res = service.loginService(data);
         if (res.get("status").equals(true) && res.get("message").equals("Password Matching")){
@@ -77,7 +78,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<HashMap<String, Object>> SignUp(@RequestBody ReqAuth userData, HttpServletResponse response){
+    public ResponseEntity<HashMap<String, Object>> SignUp(@Valid @RequestBody ReqAuth userData, HttpServletResponse response){
 
         HashMap<String,Object> res = service.signupService(userData);
         if (res.get("status").equals(true)){

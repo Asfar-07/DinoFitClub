@@ -30,7 +30,7 @@ public class SupportMailServiceImpl implements SupportMailService {
         try {
 
             CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from("DinoRyx <noreply@asfarmuhammed.space>")
+                    .from("DinoFitClub <noreply@asfarmuhammed.space>")
                     .to(email)
                     .subject(subject)
                     .html(body)

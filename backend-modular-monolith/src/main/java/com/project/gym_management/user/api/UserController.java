@@ -1,6 +1,7 @@
 package com.project.gym_management.user.api;
 
 
+import com.project.gym_management.common.cookie.CookieManage;
 import com.project.gym_management.dashboard.api.responsive.AccountCommunitiesDTO;
 import com.project.gym_management.dashboard.application.CommunityService;
 import com.project.gym_management.user.api.response.AccountDTO;
@@ -8,6 +9,7 @@ import com.project.gym_management.user.api.response.ProfileDTO;
 import com.project.gym_management.user.application.UserService;
 import com.project.gym_management.user.domain.UpdateUserPrint;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,12 +70,16 @@ public class UserController {
         return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    @DeleteMapping(value="/delete/account")
-    public  ResponseEntity<String> DeleteAccount( HttpServletRequest request){
+    @DeleteMapping(value="/permanently/delete/account")
+    public  ResponseEntity<String> DeleteAccount(HttpServletRequest request, HttpServletResponse response){
 
         String userId = (String) request.getAttribute("userId");
-        boolean response = service.DeleteService(Long.parseLong(userId));
-        if(response) return ResponseEntity.ok("success");
+        boolean serverResponse = service.DeleteService(Long.parseLong(userId));
+        if(serverResponse) {
+            CookieManage cookie = new CookieManage(response);
+            cookie.removeCookie();
+            return ResponseEntity.ok("success");
+        }
         return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -43,6 +43,7 @@ export default function Login() {
   const [passwordFocused, setPasswordFocused] = useState(false);
 
   const [showOtp, setShowOtp] = useState(false);
+  const hasCheckedAuth = useRef(false);
 
   //useForm
   const loginForm = useForm<userForm>({ defaultValues: { username: "", email: "", password: "" } });
@@ -54,10 +55,12 @@ export default function Login() {
 
 
   useEffect(() => {
+    if (hasCheckedAuth.current) return;
+
     if (authStatus === "authenticated") {
-      navigate("/account");
+      navigate("/account", { replace: true });
     }
-  }, [authStatus]);
+  }, [authStatus, navigate]);
 
   //form resect from useForm
   const resetDefault = () => {
@@ -160,9 +163,10 @@ export default function Login() {
           toast.success(data.message)
           dispatch(setAuth(data.user_details))
           dispatch(updateAuth(true));
-          resetDefault()
           setIsLoading(false);
-          navigate("/welcome/home");
+          hasCheckedAuth.current = true;
+          navigate("/welcome/home", { replace: true });
+          resetDefault();
         } else {
           toast.error(data.message)
         }
@@ -197,7 +201,7 @@ export default function Login() {
 
   const passwordField = register("password", {
     required: "Please enter password", pattern: {
-      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/,
+      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,50}$/,
       message:
         "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one symbol"
     }
@@ -228,7 +232,7 @@ export default function Login() {
             <img src="/android-chrome-192x192.png" alt="logo" />
           </span>
           <span className="text-lg font-bold tracking-tight">
-            Dino<span className="text-[#56b2bb]">Ryx</span>
+            Dino<span className="text-[#56b2bb]">FitClub</span>
           </span>
         </a>
 
@@ -267,7 +271,7 @@ export default function Login() {
               <div className=" relative z-10 mx-auto h-64 w-auto sm:h-72">
                 <img
                   src="/images/DinoHome.webp"
-                  alt="DinoRyx mascot"
+                  alt="DinoFitClub mascot"
                   className="size-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
                 />
               </div>
@@ -278,7 +282,7 @@ export default function Login() {
               <div className=" relative z-10 mx-auto h-64 w-auto sm:h-72">
                 <img
                   src="/images/DinoEmail.webp"
-                  alt="DinoRyx mascot"
+                  alt="DinoFitClub mascot"
                   className="size-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
                 />
               </div>
@@ -290,7 +294,7 @@ export default function Login() {
                 <FloatingCharacters />
                 <img
                   src="/images/DinoThinkingEyesClose.webp"
-                  alt="DinoRyx thinking eyes closed"
+                  alt="DinoFitClub thinking eyes closed"
                   className="relative z-2 size-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
                 />
               </div>
@@ -302,7 +306,7 @@ export default function Login() {
                 <FloatingCharacters />
                 <img
                   src="/images/DinoThinkingEyesOpen.webp"
-                  alt="DinoRyx thinking eyes open"
+                  alt="DinoFitClub thinking eyes open"
                   className="relative z-2 size-full object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
                 />
               </div>
@@ -328,7 +332,7 @@ export default function Login() {
               {isSignup ? "Sign In" : "Log In"}
             </h2>
             <p className="mt-3 text-sm text-[#bac7cc]">
-              {isSignup ? "Returning to DinoRyx? " : "New to DinoRyx? "}
+              {isSignup ? "Returning to DinoFitClub? " : "New to DinoFitClub? "}
               {isSignup ?
                 <button
                   className="font-semibold text-[#56b2bb]  hover:text-[#56b2bb]/80 cursor-pointer"
@@ -366,7 +370,7 @@ export default function Login() {
                     placeholder="Enter your name"
                     {...register("username", {
                       required: "Please enter username", pattern: {
-                        value: /^[A-Za-z ]{3,20}$/,
+                        value: /^[A-Za-z ]{3,15}$/,
                         message: "Username must be 3–15 letters (spaces allowed, no numbers)"
                       }
                     })}
