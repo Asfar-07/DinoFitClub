@@ -12,11 +12,11 @@ import type { RootState } from "@/app/store.ts";
 
 const navLinks = [
   { text:"Home", link: "/"},
-  { text:"Trainers", link: "/"},
-  { text:"Help", link: "/settings/general"},
+  { text:"Communities", link: "/"},
+  { text:"Help", link: "/support"},
   { text:"Map", link: "/nearby-location"},
   { text:"About", link: "/about"},
-  { text:"Event", link: "/"},
+  // { text:"Event", link: "/"},
 ]
 
 export default function Navbar() {

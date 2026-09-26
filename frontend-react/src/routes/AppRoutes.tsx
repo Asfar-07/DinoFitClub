@@ -26,6 +26,7 @@ import About from "@/pages/About/About.tsx";
 import SmallFooterLayout from "@/layouts/SmallFooterLayout.jsx";
 import SupportCenter from "@/pages/Support/SupportCenter.tsx";
 import SmallHeaderLayout from "@/layouts/SmallHeaderLayout.jsx";
+import SmallHeaderAndFooterLayout from "@/layouts/SmallHeaderAndFooterLayout.jsx";
 
 export default function AppRoutes() {
 
@@ -77,15 +78,19 @@ export default function AppRoutes() {
             <Route path="/nearby-location" Component={MainLocation} />
           </Route>
 
-           {/* Small Header Only */}
+          {/* Small Header Only */}
           <Route element={<SmallHeaderLayout />}>
-            <Route path="/support" Component={SupportCenter} />
             <Route path="/create/community" Component={CreateCommunity} />
+          </Route>
+
+          {/* Small Header and Footer */}
+          <Route element={<SmallHeaderAndFooterLayout />}>
+            <Route path="/support" Component={SupportCenter} />
           </Route>
 
           {/* No Header/Footer */}
           <Route element={<NoLayout />}>
-            <Route path="/user/manage/dashboard" Component={Dashboard} />
+            <Route path="/community/dashboard" Component={Dashboard} />
             <Route path="/login" Component={Login} />
             <Route path="/login/forgot" Component={ForgotPassword} />
             <Route path="/reset-password" Component={ResetPassword} />

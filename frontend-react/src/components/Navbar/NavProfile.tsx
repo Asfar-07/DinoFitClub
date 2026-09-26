@@ -61,7 +61,7 @@ export default function NavProfile() {
         <div className="header-s-account">
           <ul>
             <li>
-              <Link to="/">My Account</Link>
+              <Link to="/">Home</Link>
             </li>
             {isAuth === "authenticated" && (
               <li>

@@ -16,26 +16,26 @@ const linkGroups: FooterLinkGroup[] = [
   {
     title: "Platform",
     links: [
-      { label: "Features", href: "#features" },
-      { label: "Trainers", href: "#trainers" },
+      { label: "Features", href: "/about" },
+      { label: "Communities", href: "/" },
       { label: "Nearby Gyms", href: "/nearby-location" },
       { label: "Dashboard", href: "#dashboard" },
     ],
   },
   {
-    title: "Company",
+    title: "More",
     links: [
-      { label: "About", href: "#about" },
-      { label: "team", href: "#team" },
-      { label: "Blog", href: "#blog" },
+      { label: "About", href: "/about" },
+      { label: "Team", href: "/about" },
+      { label: "Mission", href: "/about" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "Help Center", href: "/settings/general" },
-      { label: "Documentation", href: "#documentation" },
-      { label: "FAQ", href: "#faq" },
+      { label: "Help Center", href: "/support" },
+      { label: "Setting", href: "/settings/general" },
+      { label: "FAQ", href: "/support" },
     ],
   },
   {
@@ -80,12 +80,14 @@ export default function Footer() {
             </div>
 
             <p className="mt-5 max-w-sm text-sm text-[#bac7cc]">
-              The trainer-first gym management platform. Memberships,
-              billing, progress and nearby discovery all in one
-              intelligent ecosystem.
+              A fitness community platform built to bring everything together —
+               memberships, events, fitness network, progress, events, and nearby fitness communities in one place.
+               <br/>
+              <div className="font-bold mt-2">Keep moving. Stay healthy. Grow together.</div>
+
             </p>
 
-            <form
+            {/* <form
               onSubmit={handleSubscribe}
               className="glass-li flex w-full max-w-sm items-center gap-2 rounded-full border-[#1d2233] text-(--secondary-text-color)
                placeholder:text-(--secondary-text-color) focus-visible:ring-[#56b2bb] focus-visible:ring-offset-0"
@@ -104,7 +106,7 @@ export default function Footer() {
               >
                 Subscribe
               </Button>
-            </form>
+            </form> */}
 
             <div className="flex items-center gap-3 pt-1">
               {socialLinks.map(({ icon: Icon, label, href }) => (
@@ -150,9 +152,7 @@ export default function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6  text-[#bac7cc] sm:flex-row md:px-10">
           <p>© 2026 DinoFitClub. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
-            Crafted with
-            <Gem className="h-3.5 w-3.5 text-[#56b2bb]" fill="#56b2bb" />
-            for trainers worldwide.
+            Developed by <a href="/about" className="underline text-(--symbol-color) font-bold">Gen Z</a>
           </p>
         </div>
       </div>

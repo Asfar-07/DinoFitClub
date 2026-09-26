@@ -19,7 +19,7 @@ const links: Links[] = [
     },
     {
         label: "Contact",
-        link: "/"
+        link: "/support"
     }
 ]
 
