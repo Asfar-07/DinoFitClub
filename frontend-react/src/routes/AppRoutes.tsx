@@ -24,6 +24,8 @@ import NotFound from "@/pages/NotFound/NotFound.tsx";
 import Settings from "@/pages/Setting/Settings.tsx";
 import About from "@/pages/About/About.tsx";
 import SmallFooterLayout from "@/layouts/SmallFooterLayout.jsx";
+import SupportCenter from "@/pages/Support/SupportCenter.tsx";
+import SmallHeaderLayout from "@/layouts/SmallHeaderLayout.jsx";
 
 export default function AppRoutes() {
 
@@ -75,14 +77,20 @@ export default function AppRoutes() {
             <Route path="/nearby-location" Component={MainLocation} />
           </Route>
 
+           {/* Small Header Only */}
+          <Route element={<SmallHeaderLayout />}>
+            <Route path="/support" Component={SupportCenter} />
+            <Route path="/create/community" Component={CreateCommunity} />
+          </Route>
+
           {/* No Header/Footer */}
           <Route element={<NoLayout />}>
             <Route path="/user/manage/dashboard" Component={Dashboard} />
             <Route path="/login" Component={Login} />
             <Route path="/login/forgot" Component={ForgotPassword} />
             <Route path="/reset-password" Component={ResetPassword} />
-            <Route path="/create/community" Component={CreateCommunity} />
             <Route path="/welcome/home" Component={OnboardingPage} />
+            
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
