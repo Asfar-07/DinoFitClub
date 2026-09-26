@@ -21,6 +21,8 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
 """)
     List<Community> findByOwnerIdWithLevel(@Param("ownerId") Long ownerId);
 
+    long countByOwnerId(Long userId);
+
     List<Community> findByCategory(Community.Category category);
 
     List<Community> findByLevelId(Long level);

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
+
 
 @RestController
 @RequestMapping("/community/dashboard")
@@ -35,6 +37,9 @@ public class CommunityDashboard {
             communityService.createCommunity(data, Long.valueOf(userId));
             return ResponseEntity.ok("ok");
         } catch (Exception e) {
+            if (Objects.equals(e.getMessage(), "Limit Ended")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }

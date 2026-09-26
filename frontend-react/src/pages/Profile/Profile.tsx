@@ -22,7 +22,8 @@ import {
   Pencil, Check, X, MapPin, Calendar, Phone, Mail,
   User, ShieldCheck, LayoutDashboard, Plus, SettingsIcon,
   Camera,
-  Search
+  Search,
+  Lock
 } from "lucide-react";
 import ShortcutsCommand from '@/components/SmallUI/ShortcutsCommand';
 import AvatarChanger from './AvatarChanger';
@@ -405,12 +406,20 @@ export default function ProfileDashboard() {
                     {ownCommunity.map((community) => (
                       <CommunityCard key={community.publicId} data={community} />
                     ))}
+                    {(ownCommunity.length < 2) ? 
                     <DiscoverTile
                       icon={<Plus size={16} />}
                       title="Create new own community"
                       description="Start a new community for your athletes."
                       onClick={() => navigate("/create/community")}
                     />
+                    :
+                    <DiscoverTile
+                      icon={<Lock size={16} />}
+                      title="Can't create community"
+                      description="Normal user can only create 2 community."
+                    />
+                    }
                   </>
                 }
               </div>
@@ -443,7 +452,7 @@ export default function ProfileDashboard() {
                     ))}
                     <DiscoverTile
                       icon={<Search size={20} />}
-                      title="Exploret"
+                      title="Explore"
                       description="Explore our fitness universe."
                     />
                   </>

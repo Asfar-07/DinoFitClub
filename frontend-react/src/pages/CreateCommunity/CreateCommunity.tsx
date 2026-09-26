@@ -22,6 +22,7 @@ import { handleDashboard } from "@/features/dashboard/dashboardService";
 import { toast } from "react-toastify";
 import GeneralLoader from "@/components/Loader/GeneralLoader";
 import type { CommunityCategory, CommunityPrivacy, CommunityFormData } from "./Community.type";
+import { validateFile } from "@/utils/avatarFileHandle";
 
 
 export interface CreateCommunityPageProps {
@@ -66,7 +67,7 @@ const inputClass =
 
 
 export default function CreateCommunity({
-  onBack = () => { },
+  onBack = () => { window.history.back() },
 }: CreateCommunityPageProps): ReactElement {
   const [form, setForm] = useState<CommunityFormData>(emptyForm);
   const [logo, setLogo] = useState<File | null>();
@@ -83,9 +84,15 @@ export default function CreateCommunity({
 
   const handleLogoClick = (): void => fileInputRef.current?.click();
 
-  const handleLogoChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleLogoChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     if (!file) return;
+    const validationError = await validateFile(file);
+    if (validationError) {
+      toast.error(validationError, { position: "top-right", autoClose: 5000 });
+      e.target.value = "";
+      return;
+    }
     setLogo(file)
     setPreview(URL.createObjectURL(file));
   };
@@ -104,12 +111,17 @@ export default function CreateCommunity({
         type: "application/json",
       })
     );
+    setLoading(true);
 
     handleDashboard.createDashboard(formData).then(() => {
-      setLoading(true);
       navigation("/account");
-    }).catch(() => {
-      toast.error("Something wrong");
+    }).catch((e) => {
+      console.log(e);
+      if(e.response.status == 403){
+        toast.error("Limited");
+      } else {
+        toast.error("Something wrong");
+      }
     }).finally(() => {
       setLoading(false);
     })
@@ -155,7 +167,7 @@ export default function CreateCommunity({
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8 md:px-10">
         <button
           onClick={onBack}
-          className="mb-6 flex items-center gap-2 text-sm font-medium text-[#bac7cc] transition hover:text-[#f0f4f8]"
+          className="mb-6 cursor-pointer flex items-center gap-2 text-sm font-medium text-[#bac7cc] transition hover:text-[#f0f4f8]"
         >
           <ArrowLeft size={16} />
           Back to home

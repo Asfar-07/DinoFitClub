@@ -21,7 +21,7 @@ export interface CommunityLevel {
   name: CommunityLevels;
   requiredPoints: number;
 }
-export type CommunityLevels = "Dino Brown" | "Dino Silver" | "Dino Gold" | "Dino Elite";
+export type CommunityLevels = "Dino Bronze" | "Dino Silver" | "Dino Gold" | "Dino Elite";
 
 export interface AccountCommunitiesResponse {
   owned: CommunitySummary[];

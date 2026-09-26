@@ -13,6 +13,7 @@ import com.project.gym_management.user.domain.UserTable;
 import com.project.gym_management.user.infrastructure.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.naming.LimitExceededException;
 import java.util.List;
 
 @Service
@@ -28,10 +29,16 @@ public class CommunityServiceImp implements CommunityService {
     }
 
     @Override
-    public void createCommunity(Community newCommunity, Long userId) {
+    public void createCommunity(Community newCommunity, Long userId) throws LimitExceededException {
         UserTable user = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("user not found")
         );
+        long countCommunity = communityRepository.countByOwnerId(user.getId());
+
+        //one user only have to create 2 community
+        if (countCommunity >= 2) {
+            throw new LimitExceededException("Limit Ended");
+        }
 
         CommunityLevel level = communityLevelRepository.findByLevel(1).orElseThrow(
                 () -> new NullPointerException("not found level")
