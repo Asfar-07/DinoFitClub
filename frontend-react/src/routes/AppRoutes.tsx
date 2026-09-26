@@ -8,7 +8,6 @@ import { handleUser } from "@/features/user/userService.js";
 
 import type { RootState } from "@/app/store.ts"; 
 
-import Dashboard from "../pages/Dashboard/Dashboard.jsx";
 import Home from "../pages/Home/Home.jsx";
 import Login from "@/pages/Login/Login.tsx";
 import Profile from "../pages/Profile/Profile.tsx";
@@ -27,6 +26,7 @@ import SmallFooterLayout from "@/layouts/SmallFooterLayout.jsx";
 import SupportCenter from "@/pages/Support/SupportCenter.tsx";
 import SmallHeaderLayout from "@/layouts/SmallHeaderLayout.jsx";
 import SmallHeaderAndFooterLayout from "@/layouts/SmallHeaderAndFooterLayout.jsx";
+import CommunityDashboard from "@/pages/CommunityDashboard/CommunityDashboard.tsx";
 
 export default function AppRoutes() {
 
@@ -80,6 +80,7 @@ export default function AppRoutes() {
 
           {/* Small Header Only */}
           <Route element={<SmallHeaderLayout />}>
+          <Route path="/community/dashboard" Component={CommunityDashboard} />
             <Route path="/create/community" Component={CreateCommunity} />
           </Route>
 
@@ -90,7 +91,6 @@ export default function AppRoutes() {
 
           {/* No Header/Footer */}
           <Route element={<NoLayout />}>
-            <Route path="/community/dashboard" Component={Dashboard} />
             <Route path="/login" Component={Login} />
             <Route path="/login/forgot" Component={ForgotPassword} />
             <Route path="/reset-password" Component={ResetPassword} />
