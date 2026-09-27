@@ -1,6 +1,5 @@
 import { useRef, useState, type ChangeEvent, type FormEvent, type ReactElement, type ReactNode } from "react";
 import {
-  Search,
   ChevronDown,
   ArrowLeft,
   Users,
@@ -15,14 +14,14 @@ import {
   Lock,
   Check,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import NavProfile from "@/components/Navbar/NavProfile";
-import NotifyIcon from "@/components/SmallUI/NotifyIcon";
+import { useNavigate } from "react-router-dom";
+
 import { handleDashboard } from "@/features/dashboard/dashboardService";
 import { toast } from "react-toastify";
 import GeneralLoader from "@/components/Loader/GeneralLoader";
-import type { CommunityCategory, CommunityPrivacy, CommunityFormData } from "./Community.type";
+import type { CommunityFormData } from "./CreateCommunity.type";
 import { validateFile } from "@/utils/avatarFileHandle";
+import type { CommunityCategory, CommunityPrivacy } from "../CommunityDashboard/Community.type";
 
 
 export interface CreateCommunityPageProps {

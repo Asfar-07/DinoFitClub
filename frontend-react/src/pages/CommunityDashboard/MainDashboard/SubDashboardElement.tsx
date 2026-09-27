@@ -17,6 +17,7 @@ import {
   Info,
   LineChart as LineChartIcon,
 } from "lucide-react";
+import type { CommunityLevel, MainCommunityResponse } from "../Community.type";
 
 
 interface TopMember {
@@ -45,22 +46,6 @@ interface CommunityStat {
   label: string;
 }
 
-const INFO_STRIP: InfoStripItem[] = [
-  { icon: <Hash size={14} />, label: "Public ID", value: "DFC-7842" },
-  { icon: <Tag size={14} />, label: "Category", value: "Fitness" },
-  { icon: <Calendar size={14} />, label: "Started", value: "12 Mar 2025" },
-  { icon: <Phone size={14} />, label: "Phone", value: "+91 98765 43210" },
-  { icon: <Link2 size={14} />, label: "Website", value: "www.dinofitclub.com", isLink: true },
-  { icon: <MapPin size={14} />, label: "Address", value: "Trivandrum, Kerala" },
-  { icon: <ShieldCheck size={14} />, label: "Privacy", value: "Public" },
-];
-
-const COMMUNITY_STATS: CommunityStat[] = [
-  { icon: <Users size={16} />, value: "1.2K", label: "Followers" },
-  { icon: <Users size={16} />, value: "248", label: "Memberships" },
-  { icon: <Calendar size={16} />, value: "12", label: "Events" },
-  { icon: <MapPin size={16} />, value: "6", label: "Branches" },
-];
 
 const TOP_MEMBERS: TopMember[] = [
   { rank: 1, name: "RexFit", role: "Trainer", xp: "12.4K XP", avatarEmoji: "🦖" },
@@ -124,14 +109,12 @@ export function DashboardCardHeader({ icon, title, action }: CardHeaderProps): R
   );
 }
 
-export function AboutCommunityCard(): ReactElement {
+export function AboutCommunityCard({ about } : { about: string | undefined }): ReactElement {
   return (
     <DashboardCard className="flex flex-1 flex-col">
       <DashboardCardHeader icon={<Users size={16} />} title="About Community" />
       <p className="flex-1 text-sm leading-relaxed text-[#bac7cc]">
-        DinoFit Community is a space for fitness enthusiasts to connect, share progress, join events and grow
-        stronger together. Whether you're a beginner or a pro, you'll find support, motivation and amazing people
-        here.
+        {about}
       </p>
       <button className="mt-4 flex w-fit items-center gap-2 rounded-full border border-[#7be6df40] px-4 py-2 text-xs font-bold text-[#7be6df] transition hover:bg-[#7be6df14]">
         View Details
@@ -141,9 +124,9 @@ export function AboutCommunityCard(): ReactElement {
   );
 }
 
-export function CurrentRankCard(): ReactElement {
-  const xp = 520;
-  const maxXp = 1000;
+export function CurrentRankCard({ currentPoint, level } : { currentPoint: number; level: CommunityLevel }): ReactElement {
+  const xp = currentPoint;
+  const maxXp = 500;
   const pct = Math.round((xp / maxXp) * 100);
 
   return (
@@ -152,7 +135,7 @@ export function CurrentRankCard(): ReactElement {
       <div className="flex items-center gap-4">
         <RankBadgeIllustration />
         <div>
-          <p className="text-lg font-extrabold text-[#f0f4f8]">Dino Silver</p>
+          <p className="text-lg font-extrabold text-[#f0f4f8]">{level.name}</p>
           <p className="text-xs text-[#6b7684]">Keep going! You're doing great.</p>
         </div>
       </div>
@@ -169,6 +152,12 @@ export function CurrentRankCard(): ReactElement {
 }
 
 export function CommunityStatsCard(): ReactElement {
+  const COMMUNITY_STATS: CommunityStat[] = [
+  { icon: <Users size={16} />, value: "0", label: "Followers" },
+  { icon: <Users size={16} />, value: "0", label: "Memberships" },
+  { icon: <Calendar size={16} />, value: "Empty", label: "Events" },
+  { icon: <MapPin size={16} />, value: "None", label: "Branches" },
+];
   return (
     <DashboardCard>
       <DashboardCardHeader icon={<BarChart3 size={16} />} title="Community Stats" />
@@ -265,7 +254,69 @@ export function TopMembersCard(): ReactElement {
   );
 }
 
-export function QuickInfoCard(): ReactElement {
+export function QuickInfoCard({ dashboardData }:  { dashboardData: MainCommunityResponse | undefined }): ReactElement {
+
+  let INFO_STRIP: InfoStripItem[] = [];
+  
+      const displayValue = (value: string | null | undefined) =>
+          value?.trim() || "NONE";
+  
+      if (dashboardData?.access === "OWNER") {
+          INFO_STRIP = [
+              {
+                  icon: <Hash size={14} />,
+                  label: "Public ID",
+                  value: displayValue(dashboardData.community.publicId),
+              },
+              {
+                  icon: <Tag size={14} />,
+                  label: "Category",
+                  value: displayValue(dashboardData.community.category),
+              },
+              {
+                  icon: <Calendar size={14} />,
+                  label: "Started",
+                  value: displayValue(dashboardData.community.whenStarted),
+              },
+              {
+                  icon: <Phone size={14} />,
+                  label: "Phone",
+                  value: displayValue(dashboardData.community.phoneNumber),
+              },
+              {
+                  icon: <Link2 size={14} />,
+                  label: "Website",
+                  value: displayValue(dashboardData.community.website),
+                  isLink: true,
+              },
+              {
+                  icon: <MapPin size={14} />,
+                  label: "Address",
+                  value: displayValue(dashboardData.community.address),
+              },
+              {
+                  icon: <ShieldCheck size={14} />,
+                  label: "Privacy",
+                  value: displayValue(dashboardData.community.privacy),
+              },
+          ];
+      }
+  
+      if (dashboardData?.access === "PUBLIC") {
+          INFO_STRIP = [
+              {
+                  icon: <Hash size={14} />,
+                  label: "Public ID",
+                  value: displayValue(dashboardData.community.publicId),
+              },
+              {
+                  icon: <Tag size={14} />,
+                  label: "Category",
+                  value: displayValue(dashboardData.community.category),
+              },
+          ];
+      }
+  
   return (
     <DashboardCard>
       <DashboardCardHeader icon={<Info size={16} />} title="Quick Info" />

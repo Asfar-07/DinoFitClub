@@ -80,7 +80,7 @@ export default function AppRoutes() {
 
           {/* Small Header Only */}
           <Route element={<SmallHeaderLayout />}>
-          <Route path="/community/dashboard" Component={CommunityDashboard} />
+          <Route path="/community/dashboard/:communityCode" Component={CommunityDashboard} />
             <Route path="/create/community" Component={CreateCommunity} />
           </Route>
 
@@ -97,6 +97,7 @@ export default function AppRoutes() {
             <Route path="/welcome/home" Component={OnboardingPage} />
             
           </Route>
+          <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
     </div>

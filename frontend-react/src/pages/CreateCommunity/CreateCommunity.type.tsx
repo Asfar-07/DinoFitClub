@@ -1,7 +1,5 @@
-export type CommunityPrivacy = "PUBLIC" | "PRIVATE";
+import type { CommunityPrivacy } from "../CommunityDashboard/Community.type";
 
-export type CommunityCategory = "Yoga" | "FITNESS" | "CROSSFIT" | "SPORTS" | "SWIMMING" |
-  "WELLNESS" | "BOXING"
 
 export interface CommunityFormData {
   name: string;

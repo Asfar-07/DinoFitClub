@@ -1,4 +1,4 @@
-import type { CommunityPrivacy, CommunityCategory } from "../CreateCommunity/Community.type";
+import type { CommunityCategory, CommunityLevel, CommunityPrivacy } from "../CommunityDashboard/Community.type";
 
 export interface AvatarData {
   id: string;
@@ -15,13 +15,6 @@ export interface CommunitySummary {
   points: number;
   level: CommunityLevel;
 }
-
-export interface CommunityLevel {
-  id: number;
-  name: CommunityLevels;
-  requiredPoints: number;
-}
-export type CommunityLevels = "Dino Bronze" | "Dino Silver" | "Dino Gold" | "Dino Elite";
 
 export interface AccountCommunitiesResponse {
   owned: CommunitySummary[];

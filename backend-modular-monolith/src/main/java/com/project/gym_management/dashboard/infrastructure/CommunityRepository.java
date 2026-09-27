@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CommunityRepository extends JpaRepository<Community, Long> {
@@ -22,6 +23,8 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
     List<Community> findByOwnerIdWithLevel(@Param("ownerId") Long ownerId);
 
     long countByOwnerId(Long userId);
+
+    Optional<Community> findByPublicId(String publicId);
 
     List<Community> findByCategory(Community.Category category);
 

@@ -1,13 +1,13 @@
 import type { ReactElement } from "react";
 import { Users, LogIn, Globe, Lock} from "lucide-react";
-import type { CommunitySummary, CommunityLevels } from "./Profile.type";
+import type { CommunitySummary } from "./Profile.type";
+import { useNavigate } from "react-router-dom";
+import type { CommunityLevels } from "../CommunityDashboard/Community.type";
 
 
-export type CommunityPrivacy = "public" | "private";
 
 export interface CommunityCardProps {
   data: CommunitySummary;
-  onEnter?: (id: string) => void;
 }
 
 const LEVEL_STYLES: Record<CommunityLevels, string> = {
@@ -17,9 +17,11 @@ const LEVEL_STYLES: Record<CommunityLevels, string> = {
   "Dino Elite": "border-[#a78bfa66] bg-[#a78bfa14] text-[#c4b5fd]",
 };
 
-export default function CommunityCard({ data, onEnter = () => {} }: CommunityCardProps): ReactElement {
+export default function CommunityCard({ data }: CommunityCardProps): ReactElement {
   const accent = "#7be6df";
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  const navigate = useNavigate();
 
   return (
     <div className="group glass-strong-nav relative flex flex-col gap-4 overflow-hidden rounded-2xl  p-5 transition
@@ -87,7 +89,7 @@ export default function CommunityCard({ data, onEnter = () => {} }: CommunityCar
         </div>
 
         <button
-          onClick={() => onEnter(data.publicId)}
+          onClick={() => navigate(`/community/dashboard/${data.publicId}`)}
           className="flex cursor-pointer shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7be6df] to-[#38d9c4] px-4 py-2 text-xs font-bold text-[#082a28] transition hover:brightness-105"
         >
           <LogIn size={13} />

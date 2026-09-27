@@ -1,9 +1,7 @@
 package com.project.gym_management.dashboard.application.imp;
 
 import com.project.gym_management.common.util.RandomIdGenerator;
-import com.project.gym_management.dashboard.api.responsive.AccountCommunitiesDTO;
-import com.project.gym_management.dashboard.api.responsive.CommunityLevelResponse;
-import com.project.gym_management.dashboard.api.responsive.CommunitySummaryResponse;
+import com.project.gym_management.dashboard.api.responsive.*;
 import com.project.gym_management.dashboard.application.CommunityService;
 import com.project.gym_management.dashboard.domain.Community;
 import com.project.gym_management.dashboard.domain.CommunityLevel;
@@ -11,6 +9,7 @@ import com.project.gym_management.dashboard.infrastructure.CommunityLevelReposit
 import com.project.gym_management.dashboard.infrastructure.CommunityRepository;
 import com.project.gym_management.user.domain.UserTable;
 import com.project.gym_management.user.infrastructure.UserRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import javax.naming.LimitExceededException;
@@ -76,6 +75,30 @@ public class CommunityServiceImp implements CommunityService {
         );
     }
 
+    @Override
+    public Object getDashboardData(String publicId, Long userId) {
+        Community community = communityRepository.findByPublicId(publicId).orElseThrow(() ->
+                new NullPointerException("community not found")
+        );
+        // check ower of community
+        if (community.getOwner().getId() == userId) {
+            return new MainCommunityResponse(
+                    MainCommunityResponse.Access.OWNER,
+                    toOwnerResponse(community)
+            );
+        } else  {
+            // check privacy for normal user
+            if (community.getPrivacy() == Community.Privacy.PUBLIC){
+                return new MainCommunityResponse(
+                        MainCommunityResponse.Access.PUBLIC,
+                        toPublicResponse(community)
+                );
+            } else {
+                throw new NullPointerException("community not found");
+            }
+        }
+    }
+
     private CommunitySummaryResponse toSummary(Community community) {
         CommunityLevel level = community.getLevel();
         return new CommunitySummaryResponse(
@@ -93,4 +116,44 @@ public class CommunityServiceImp implements CommunityService {
                 )
         );
     }
+
+    private CommunityOwnerResponse toOwnerResponse(Community community) {
+        CommunityLevel level = community.getLevel();
+        return new CommunityOwnerResponse(
+                community.getPublicId(),
+                community.getName(),
+                community.getLogoUrl(),
+                community.getDescription(),
+                community.getCategory(),
+                community.getWhenStarted(),
+                community.getPhoneNumber(),
+                community.getWebsite(),
+                community.getAddress(),
+                community.getPrivacy(),
+                new CommunityLevelResponse(
+                        level.getId(),
+                        level.getName(),
+                        level.getRequiredPoints()
+                ),
+                community.getPoints()
+        );
+    }
+
+    private CommunityPublicResponse toPublicResponse(Community community) {
+        CommunityLevel level = community.getLevel();
+        return new CommunityPublicResponse(
+                community.getPublicId(),
+                community.getName(),
+                community.getLogoUrl(),
+                community.getDescription(),
+                community.getCategory(),
+                new CommunityLevelResponse(
+                        level.getId(),
+                        level.getName(),
+                        level.getRequiredPoints()
+                ),
+                community.getPoints()
+        );
+    }
 }
+

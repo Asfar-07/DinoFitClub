@@ -1,5 +1,6 @@
 package com.project.gym_management.dashboard.api;
 
+import com.project.gym_management.dashboard.api.responsive.CommunitySummaryResponse;
 import com.project.gym_management.dashboard.application.CommunityService;
 import com.project.gym_management.dashboard.domain.Community;
 import com.project.gym_management.files.controller.ImageController;
@@ -43,10 +44,17 @@ public class CommunityDashboard {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-    @GetMapping(value = "/give/data/client")
-    public  ResponseEntity<?> DashboardDataToClient(@RequestParam("dashId") String dashId){
-//        ArrayList<Object> data=service.getDashboardData(12345,dashId);
-       return ResponseEntity.ok("data");
+    @GetMapping(value = "/data/{publicId}")
+    public  ResponseEntity<?> DashboardDataToClient(@PathVariable String publicId, HttpServletRequest request){
+        String userId = (String) request.getAttribute("userId");
+
+        System.out.println(publicId);
+        try{
+            return  ResponseEntity.ok(communityService.getDashboardData(publicId, Long.valueOf(userId)));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 
 }

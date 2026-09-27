@@ -49,7 +49,7 @@ export default function NotFound(): ReactElement {
             Dino<span className="text-[#56b2bb]">FitClub</span>
           </span>
         </Link>
-        <Link to="/settings/general" className="rounded-full border border-[#7be6df] bg-[#7be6df0d] px-6 py-3 text-[12.5px] font-bold uppercase tracking-wide text-[#7be6df]">
+        <Link to="/support" className="rounded-full border border-[#7be6df] bg-[#7be6df0d] px-6 py-3 text-[12.5px] font-bold uppercase tracking-wide text-[#7be6df]">
           Help 
         </Link>
       </header>

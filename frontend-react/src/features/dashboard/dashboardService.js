@@ -21,10 +21,10 @@ export const handleDashboard = {
       throw e;
     }
   },
-  getDashboardData:async (dash_id) => {
+  getDashboardData:async (publicId) => {
     try {
       const res = await apiConnection.get(
-        `/dashboard/give/data/client?dashId=${dash_id}`,
+        `/community/dashboard/data/${publicId}`,
       );
       return res.data;
     } catch (e) {
