@@ -341,6 +341,22 @@ export default function CommunityDashboard(): ReactElement {
             {isLoading && <EnterLoader />}
             <Sidebar active={activeNav} onChange={setActiveNav} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
+            {activeNav !== "dashboard" &&
+                <div className="flex justify-center min-w-0 flex-1">
+                    <main className="flex flex-col items-center w-90 h-80 mt-20 ">
+                        <div className="flex-2 w-[80%]">
+                            <img src="/images/defaults/dino_coding.webp" alt="Dino Coding" className="size-full object-cover"/>
+                        </div>
+                        <div className="flex-1 flex justify-center w-full">
+                            <p className="text-center text-[14px] md:text-[16px]">
+                                Sorry! We’re working on something new here. New features and connections are coming soon!
+                            </p>
+                        </div>
+                    </main>
+                </div>
+            }
+
+            {activeNav === "dashboard" && 
             <div className="flex min-w-0 flex-1 flex-col">
                 <main className="flex flex-col gap-6 p-4 sm:p-6 md:p-8">
                     {dashboardData && <Hero dashboardData={dashboardData} />}
@@ -362,7 +378,7 @@ export default function CommunityDashboard(): ReactElement {
                         </div>
                     </div>
                 </main>
-            </div>
+            </div>}
         </div>
     );
 }
