@@ -10,7 +10,6 @@ import {
     Settings as SettingsIcon,
     HelpCircle,
     LogOut,
-    Dumbbell,
     Globe,
     Hash,
     Tag,
@@ -22,7 +21,7 @@ import { AboutCommunityCard, CommunityStatsCard, CurrentRankCard, QuickInfoCard 
 import { handleDashboard } from "@/features/dashboard/dashboardService";
 import { useNavigate, useParams } from "react-router-dom";
 import EnterLoader from "@/components/Loader/EnterLoader";
-import type { CommunityLevels, MainCommunityResponse } from "./Community.type";
+import type { MainCommunityResponse } from "./Community.type";
 import { useDispatch } from "react-redux";
 import { authHandle } from "@/features/auth/authService";
 import { removeAuth } from "@/features/auth/authSlice";
