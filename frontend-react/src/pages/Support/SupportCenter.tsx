@@ -89,13 +89,6 @@ function TabsBar({ active, onChange }: TabsBarProps): ReactElement {
   );
 }
 
-/* Shared light-section helpers */
-
-interface CardProps {
-  children: ReactNode;
-  className?: string;
-}
-
 
 /* Shared "Quick Links" sidebar card  */
 
