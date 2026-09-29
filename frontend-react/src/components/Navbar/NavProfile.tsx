@@ -73,7 +73,7 @@ export default function NavProfile() {
             </li>
             {isAuth === "authenticated" ? (
               <li>
-                <button onClick={handleLogout}>Logout</button>
+                <button className="text-(--primary-text-color)" onClick={handleLogout}>Logout</button>
               </li>
             ) : (
               <li>

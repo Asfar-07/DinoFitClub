@@ -70,6 +70,7 @@ export default function AppRoutes() {
           <Route element={<SmallFooterLayout />}>
             <Route path="/settings/general" Component={Settings} />
             <Route path="/about" Component={About} />
+            <Route path="/about/:section" Component={About} />
           </Route>
 
           {/* Header Only */}

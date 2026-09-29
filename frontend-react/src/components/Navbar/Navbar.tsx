@@ -2,7 +2,7 @@
 import React from "react";
 import "./navbar.css";
 import NavProfile from "./NavProfile.tsx";
-import NotifyIcon from "@/components/SmallUI/NotifyIcon";
+import NotifyIcon from "@/components/SmallUI/NotifyIcon.tsx";
 import ThemeMode from "@/components/SmallUI/ThemeMode";
 import { MapPin, Menu, X } from 'lucide-react';
 import { Link } from "react-router-dom";
@@ -67,7 +67,7 @@ export default function Navbar() {
               </RippleButton>
             )}
 
-            {isAuth === "authenticated" && <NotifyIcon />}
+            {true && <NotifyIcon />}
             <ThemeMode />
             <button
               className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5 lg:hidden"

@@ -26,8 +26,8 @@ const linkGroups: FooterLinkGroup[] = [
     title: "More",
     links: [
       { label: "About", href: "/about" },
-      { label: "Team", href: "/about" },
-      { label: "Mission", href: "/about" },
+      { label: "Team", href: "/about/team" },
+      { label: "Mission", href: "/about/mission" },
     ],
   },
   {
@@ -152,7 +152,7 @@ export default function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6  text-[#bac7cc] sm:flex-row md:px-10">
           <p>© 2026 DinoFitClub. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
-            Developed by <a href="/about" className="underline text-(--symbol-color) font-bold">Gen Z</a>
+            Developed by <a href="/about/team" className="underline text-(--symbol-color) font-bold">Gen Z</a>
           </p>
         </div>
       </div>

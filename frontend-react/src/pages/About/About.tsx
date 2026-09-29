@@ -19,7 +19,7 @@ import {
   Twitter,
   ArrowRight,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 interface ChecklistItem {
   text: string;
@@ -121,33 +121,25 @@ const TEAM: TeamMember[] = [
   {
     name: "Asfar Muhammed N S",
     role: "Founder & Developer",
-    bio: "Founder and lead developer of DinoFitClub. Driving the product vision, architecture and the trainer-first experience from the ground up.",
-    tag: "FOUNDER",
-    profile: "/images/defaults/default_picture.webp",
-    isFounder: true,
+    bio: "Leading DinoFitClub from idea to reality, shaping the product vision, building the platform, and bringing the fitness community experience together.", 
+    tag: "FOUNDER", profile: "/images/defaults/default_picture.webp", isFounder: true,
   },
   {
     name: "Abiraj P",
-    role: "Developer & Content Writer",
-    bio: "Crafting the glassmorphic, modern visual language that makes DinoFitClub feel premium on every screen.",
-    tag: "DEVELOPER",
-    profile: "/images/defaults/default_picture.webp",
-  },
+    role: "Developer & Content Writer", 
+    bio: "Helping build the platform while creating clear, engaging content that makes DinoFitClub easier to understand and connect with.", 
+    tag: "DEVELOPER", profile: "/images/defaults/default_picture.webp",
+  }, 
   {
-    name: "Team Member",
-    role: "Tester & Community Lead",
-    bio: "Building relationships with early testers and trainers, gathering feedback that shapes the platform.",
-    tag: "TESTER",
-    profile: "/images/defaults/default_picture.webp",
-  },
-  {
-    name: "Loveable",
-    role: "Designer",
-    bio: "Crafting the glassmorphic, modern visual language that makes DinoFitClub feel premium on every screen.",
-    tag: "DESIGN",
-    profile: "/images/defaults/default_picture.webp",
-  },
-];
+    name: "Team Member", 
+    role: "Tester & Community Lead", 
+    bio: "Testing the platform from a user's perspective and helping shape the community through feedback, ideas, and real-world experiences.", 
+    tag: "TESTER", profile: "/images/defaults/default_picture.webp",
+  }, 
+  { name: "Loveable", 
+    role: "Designer", 
+    bio: "Turning ideas into simple, friendly, and engaging experiences that make DinoFitClub enjoyable to use across every screen.", 
+    tag: "DESIGN", profile: "/images/defaults/default_picture.webp", },];
 
 
 
@@ -179,6 +171,30 @@ export default function About(): ReactElement {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  const { section } = useParams();
+
+  useEffect(() => {
+    if (!section) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      return;
+    }
+
+    const element = document.getElementById(section);
+
+    if (element) {
+      setTimeout(() => {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
+    }
+  }, [section]);
+  
   return (
     <div className="min-h-screen relative overflow-hidden w-full bg-(--primary-bg-color) pt-16 text-(--primary-text-color)">
       <div
@@ -210,18 +226,29 @@ export default function About(): ReactElement {
           <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl">
             What is <span className="text-(--symbol-color)">DinoFitClub?</span>
           </h1>
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-(--secondary-text-color) sm:text-base">
-            DinoFitClub is a trainer-first gym management platform. Our vision is to build one of the world's largest
-            fitness communities by connecting gyms, trainers and fitness enthusiasts through a single, intelligent
-            platform. From memberships and billing to progress tracking and discovering nearby gyms, everything a
-            trainer needs lives in one beautifully simple place.
+          <p className="mt-4 max-w-4xl text-sm leading-relaxed text-(--secondary-text-color) sm:text-base">
+
+            DinofitClub started with a simple idea, fitness is better when we do it together.
+            We’re building a place where people can work toward their fitness goals, find the right community, 
+            meet new people, and stay motivated along the way.
+             Whether you run a gym, teach yoga, lead a fitness group, or simply want to become more active, 
+             DinofitClub gives you a place to be part of something bigger.
+            You can manage memberships and billing, track progress, join challenges and events, earn coins, 
+            take part in giveaways, connect with other members, find workout partners, and discover fitness communities nearby.
+
+            <br />
+            <br />
+            <span className="font-bold">
+              DinofitClub is more than a fitness platform,
+              it’s a virtual fitness world where communities connect, achievements are shared, and everyone has a reason to keep moving..
+            </span>
           </p>
 
           <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
             {CHECKLIST.map((item) => (
               <div
                 key={item.text}
-                className="flex items-start gap-3 rounded-2xl border border-[#ffffff10] bg-(--secondary-bg-color) p-5"
+                className="flex items-start gap-3 rounded-2xl glass-strong-nav p-5"
               >
                 <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#7be6df1f] text-(--symbol-color)">
                   <Check size={12} strokeWidth={3} />
@@ -259,7 +286,7 @@ export default function About(): ReactElement {
         </section>
 
         {/* Team */}
-        <section className="flex flex-col items-center text-center">
+        <section id="team" className="flex flex-col items-center text-center">
           <SectionPill icon={<Users size={12} />}>The Team</SectionPill>
           <h2 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">
             The people behind <span className="text-(--symbol-color)">DinoFitClub</span>
@@ -308,7 +335,7 @@ export default function About(): ReactElement {
           </div>
         </section>
         {/* Mission / Vision / Difference */}
-        <section className="flex flex-col items-center text-center">
+        <section id="mission" className="flex flex-col items-center text-center">
           <SectionPill icon={<Sparkles size={12} />}>Our Purpose</SectionPill>
           <h2 className="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">
             Mission · Vision · <span className="text-(--symbol-color)">Difference</span>

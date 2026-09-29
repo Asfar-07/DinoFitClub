@@ -1,6 +1,6 @@
 import { Search } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import NotifyIcon from '../SmallUI/NotifyIcon'
+import NotifyIcon from '../SmallUI/NotifyIcon.tsx'
 import NavProfile from './NavProfile'
 
 export default function SmallNavbar() {
