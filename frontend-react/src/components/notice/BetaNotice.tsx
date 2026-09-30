@@ -9,6 +9,7 @@ export default function BetaNotice() {
 
   // Decide on mount whether to show (avoids SSR/hydration mismatch)
   useEffect(() => {
+    // localStorage.removeItem(STORAGE_KEY);
     let seen = false;
     try {
       seen = localStorage.getItem(STORAGE_KEY) === "true";
@@ -78,9 +79,10 @@ export default function BetaNotice() {
         <p className="mt-2 text-sm leading-relaxed text-(--secondary-text-color)">
           During this Beta period, your data may be reset or removed after
           testing is completed. Please avoid using the Beta environment to
-          store important or permanent information.
+          store important or permanent information 
+          <a href="/news" className="text-cyan-400 underline ml-1">more.</a>
         </p>
-
+        
         <button
           type="button"
           onClick={dismiss}

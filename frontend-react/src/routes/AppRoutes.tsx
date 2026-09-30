@@ -27,6 +27,7 @@ import SupportCenter from "@/pages/Support/SupportCenter.tsx";
 import SmallHeaderLayout from "@/layouts/SmallHeaderLayout.jsx";
 import SmallHeaderAndFooterLayout from "@/layouts/SmallHeaderAndFooterLayout.jsx";
 import CommunityDashboard from "@/pages/CommunityDashboard/CommunityDashboard.tsx";
+import News from "@/pages/News/news.tsx";
 
 export default function AppRoutes() {
 
@@ -70,6 +71,7 @@ export default function AppRoutes() {
           <Route element={<SmallFooterLayout />}>
             <Route path="/settings/general" Component={Settings} />
             <Route path="/about" Component={About} />
+            <Route path="/news" Component={News} />
             <Route path="/about/:section" Component={About} />
           </Route>
 

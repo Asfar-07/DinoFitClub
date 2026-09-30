@@ -1,14 +1,19 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type ReactElement } from "react";
 import { FaRegBell } from "react-icons/fa";
 
 interface Notification {
   id: number;
-  text: string;
+  text: ReactElement;
   time: string;
 }
-
+const betaNotify : ReactElement = <div>
+  <p>During this Beta period, your data may be reset or removed after testing is completed. 
+    Please avoid using the Beta environment to store important or permanent information. <a href="/news" className="text-cyan-400 underline ml-1">more.</a></p>   
+</div>
 const messages: Notification[] = [
-  { id: 1, text: "During this Beta period, your data may be reset or removed after testing is completed. Please avoid using the Beta environment to store important or permanent information.", time: "25d" },
+  { id: 1, 
+    text: betaNotify, 
+    time: "25d" },
 ];
 
 export default function NotifyIcon() {
