@@ -27,7 +27,7 @@ import SupportCenter from "@/pages/Support/SupportCenter.tsx";
 import SmallHeaderLayout from "@/layouts/SmallHeaderLayout.jsx";
 import SmallHeaderAndFooterLayout from "@/layouts/SmallHeaderAndFooterLayout.jsx";
 import CommunityDashboard from "@/pages/CommunityDashboard/CommunityDashboard.tsx";
-import News from "@/pages/News/news.tsx";
+import News from "@/pages/News/News.tsx";
 
 export default function AppRoutes() {
 
